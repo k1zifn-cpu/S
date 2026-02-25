@@ -11,7 +11,7 @@ from aiogram.utils import executor
 
 BOT_TOKEN = "8720523641:AAG4TpijdPzoVn7K_l8r803W10dbxxo8xQM"
 ADMIN_ID = 6724600945
-DOMAIN = "https://yourdomain.com"  # ОБЯЗАТЕЛЬНО HTTPS
+DOMAIN = "https://s-vslf.onrender.com"  # ОБЯЗАТЕЛЬНО HTTPS
 
 # ============================================
 
@@ -250,3 +250,4 @@ def run_flask():
 if __name__ == "__main__":
     threading.Thread(target=run_flask).start()
     executor.start_polling(dp)
+
