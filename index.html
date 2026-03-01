@@ -6,56 +6,85 @@
 <title>Вход | Компания</title>
 
 <style>
-body{
+*{
 margin:0;
+padding:0;
+box-sizing:border-box;
 font-family:-apple-system,BlinkMacSystemFont,sans-serif;
-background:linear-gradient(145deg,#0f0f1a,#1b1b2f);
+}
+
+body{
+height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-height:100vh;
+background:linear-gradient(145deg,#0f0f1a,#1b1b2f);
 color:white;
 }
 
 .container{
 width:90%;
-max-width:350px;
+max-width:360px;
 background:rgba(255,255,255,0.05);
-backdrop-filter:blur(20px);
+backdrop-filter:blur(25px);
 padding:25px;
-border-radius:20px;
-box-shadow:0 0 25px rgba(0,200,255,0.3);
-animation:fade 0.6s ease-in-out;
+border-radius:25px;
+box-shadow:0 0 30px rgba(0,200,255,0.3);
+animation:fade 0.6s ease;
 }
 
-h2{text-align:center;}
+h2{
+text-align:center;
+margin-bottom:15px;
+}
 
 input{
 width:100%;
-padding:12px;
+padding:13px;
 margin:8px 0;
-border-radius:12px;
+border-radius:15px;
 border:none;
 background:#1e1e2e;
 color:white;
+font-size:14px;
+}
+
+input:focus{
+outline:none;
+box-shadow:0 0 10px rgba(0,200,255,0.7);
 }
 
 button{
 width:100%;
-padding:12px;
+padding:13px;
 margin-top:10px;
 border:none;
-border-radius:12px;
+border-radius:15px;
 background:linear-gradient(90deg,#00c6ff,#0072ff);
 color:white;
 font-weight:bold;
+font-size:15px;
+cursor:pointer;
+box-shadow:0 0 15px rgba(0,200,255,0.6);
+}
+
+button:active{
+transform:scale(0.97);
 }
 
 .switch{
 text-align:center;
 margin-top:15px;
+font-size:13px;
 color:#aaa;
 cursor:pointer;
+}
+
+.note{
+font-size:12px;
+color:#888;
+margin-bottom:8px;
+text-align:center;
 }
 
 @keyframes fade{
@@ -76,8 +105,13 @@ to{opacity:1;transform:scale(1)}
 
 <div class="container" id="registerBox" style="display:none">
 <h2>Регистрация</h2>
+
+<div class="note">
+Username должен быть как в Telegram, но без @
+</div>
+
 <input id="regUser" placeholder="Username">
-<input id="regName" placeholder="Имя">
+<input id="regName" placeholder="Ваше имя">
 <input id="regPass" type="password" placeholder="Пароль">
 <input id="regPass2" type="password" placeholder="Повторите пароль">
 <button onclick="register()">Зарегистрироваться</button>
@@ -85,6 +119,29 @@ to{opacity:1;transform:scale(1)}
 </div>
 
 <script>
+
+// ===== Разрешённые username =====
+const allowedUsers = [
+"K1ziFN",
+"Rod1LLer",
+"manera_im",
+"meelxw",
+"evavena",
+"liluhaaa",
+"Fyffhb",
+"Germarrr"
+]
+
+// ===== Инициализация базы =====
+if(!localStorage.getItem("users")){
+let base = {}
+allowedUsers.forEach(u=>{
+base[u] = {name:"", password:""}
+})
+localStorage.setItem("users", JSON.stringify(base))
+}
+
+// ===== Автовход =====
 if(localStorage.getItem("auth")==="true"){
 location.href="home.html"
 }
@@ -93,6 +150,7 @@ function showRegister(){
 loginBox.style.display="none"
 registerBox.style.display="block"
 }
+
 function showLogin(){
 registerBox.style.display="none"
 loginBox.style.display="block"
@@ -102,34 +160,69 @@ function validatePassword(p){
 return p.length>=6 && /[A-Za-z]/.test(p) && /\d/.test(p)
 }
 
+// ===== Регистрация =====
 function register(){
-let u=regUser.value
-let n=regName.value
-let p=regPass.value
-let p2=regPass2.value
 
-if(!validatePassword(p)){alert("Пароль минимум 6 символов, буквы и цифры");return}
-if(p!==p2){alert("Пароли не совпадают");return}
+let u = regUser.value.trim()
+let n = regName.value.trim()
+let p = regPass.value
+let p2 = regPass2.value
 
-let users=JSON.parse(localStorage.getItem("users")||"{}")
-
-if(users[u]){
-alert("Username уже существует")
+if(u.includes("@")){
+alert("Username вводится без @")
 return
 }
 
-users[u]={name:n,password:p}
-localStorage.setItem("users",JSON.stringify(users))
-alert("Успешно зарегистрированы, войдите")
+if(!allowedUsers.includes(u)){
+alert("Этот username не имеет доступа")
+return
+}
+
+if(n.length < 1){
+alert("Введите имя")
+return
+}
+
+if(!validatePassword(p)){
+alert("Пароль минимум 6 символов и должен содержать буквы и цифры")
+return
+}
+
+if(p !== p2){
+alert("Пароли не совпадают")
+return
+}
+
+let users = JSON.parse(localStorage.getItem("users"))
+
+if(users[u].name !== "" || users[u].password !== ""){
+alert("Этот username уже зарегистрирован")
+return
+}
+
+users[u].name = n
+users[u].password = p
+
+localStorage.setItem("users", JSON.stringify(users))
+
+alert("Регистрация успешна. Теперь войдите.")
 showLogin()
 }
 
+// ===== Вход =====
 function login(){
-let u=loginUser.value
-let p=loginPass.value
-let users=JSON.parse(localStorage.getItem("users")||"{}")
 
-if(users[u] && users[u].password===p){
+let u = loginUser.value.trim()
+let p = loginPass.value
+
+let users = JSON.parse(localStorage.getItem("users"))
+
+if(!users[u]){
+alert("Доступ запрещён")
+return
+}
+
+if(users[u].password === p){
 localStorage.setItem("auth","true")
 localStorage.setItem("currentUser",u)
 location.href="home.html"
@@ -137,6 +230,8 @@ location.href="home.html"
 alert("Ошибка входа. Поддержка: t.me/K1ziFN")
 }
 }
+
 </script>
+
 </body>
 </html>
