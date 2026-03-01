@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Доступ ограничен</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(145deg,#0f0f1a,#1b1b2f);
+color:white;
+text-align:center;
+padding:20px;
+}
+
+.container{
+width:100%;
+max-width:400px;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(25px);
+padding:30px;
+border-radius:25px;
+box-shadow:0 0 30px rgba(255,0,80,0.3);
+animation:fadeIn 0.6s ease;
+}
+
+h1{
+font-size:60px;
+margin-bottom:10px;
+color:#ff416c;
+text-shadow:0 0 20px rgba(255,0,80,0.7);
+}
+
+h2{
+margin-bottom:15px;
+font-weight:500;
+}
+
+.reason{
+font-size:14px;
+color:#bbb;
+margin-bottom:25px;
+line-height:1.5;
+}
+
+button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:15px;
+margin-bottom:12px;
+font-weight:bold;
+cursor:pointer;
+font-size:15px;
+transition:0.2s;
+}
+
+.auth-btn{
+background:linear-gradient(90deg,#00c6ff,#0072ff);
+box-shadow:0 0 20px rgba(0,200,255,0.6);
+color:white;
+}
+
+.support-btn{
+background:linear-gradient(90deg,#ff416c,#ff4b2b);
+box-shadow:0 0 20px rgba(255,0,80,0.6);
+color:white;
+}
+
+button:active{
+transform:scale(0.96);
+}
+
+@keyframes fadeIn{
+from{
+opacity:0;
+transform:scale(0.9);
+}
+to{
+opacity:1;
+transform:scale(1);
+}
+}
+
+/* Мобильная адаптация */
+@media(max-width:480px){
+h1{
+font-size:50px;
+}
+}
+</style>
+</head>
+<body>
+
+<script>
+if(localStorage.getItem("auth")==="true"){
+location.href="home.html"
+}
+</script>
+
+<div class="container">
+
+<h1>404</h1>
+<h2>Доступ запрещён</h2>
+
+<div class="reason">
+Причина: Вы не авторизованы или ваша сессия истекла.<br><br>
+Для доступа к новостям и внутренним страницам компании необходимо войти в систему.
+</div>
+
+<button class="auth-btn" onclick="location.href='index.html'">
+Авторизоваться
+</button>
+
+<button class="support-btn" onclick="window.open('https://t.me/K1ziFN')">
+Связаться с поддержкой
+</button>
+
+</div>
+
+</body>
+</html>
