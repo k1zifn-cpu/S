@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Новости</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+}
+
+body{
+background:linear-gradient(145deg,#0f0f1a,#1b1b2f);
+color:white;
+min-height:100vh;
+}
+
+/* ===== HEADER ===== */
+header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:15px;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(20px);
+box-shadow:0 0 20px rgba(0,200,255,0.4);
+position:sticky;
+top:0;
+z-index:100;
+}
+
+header img{
+width:40px;
+height:40px;
+border-radius:50%;
+box-shadow:0 0 10px rgba(0,200,255,0.7);
+}
+
+.header-title{
+font-weight:bold;
+font-size:18px;
+}
+
+.header-support{
+font-size:14px;
+color:#00c6ff;
+cursor:pointer;
+}
+
+/* ===== CONTENT ===== */
+
+.container{
+padding:20px;
+}
+
+.page-title{
+text-align:center;
+font-size:22px;
+margin-bottom:20px;
+opacity:0.9;
+}
+
+/* ===== NEWS CARD ===== */
+
+.card{
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(20px);
+padding:20px;
+border-radius:20px;
+margin-bottom:20px;
+box-shadow:0 0 25px rgba(0,200,255,0.2);
+transition:0.3s;
+animation:fadeUp 0.5s ease;
+}
+
+.card:hover{
+transform:translateY(-5px);
+box-shadow:0 0 35px rgba(0,200,255,0.5);
+}
+
+.card h3{
+margin-bottom:8px;
+font-size:18px;
+}
+
+.date{
+font-size:13px;
+color:#aaa;
+margin-bottom:15px;
+}
+
+button{
+width:100%;
+padding:12px;
+border:none;
+border-radius:12px;
+background:linear-gradient(90deg,#00c6ff,#0072ff);
+color:white;
+font-weight:bold;
+box-shadow:0 0 15px rgba(0,200,255,0.6);
+cursor:pointer;
+}
+
+button:active{
+transform:scale(0.97);
+}
+
+/* ===== FOOTER BUTTONS ===== */
+
+.bottom-buttons{
+margin-top:30px;
+}
+
+.logout{
+margin-top:15px;
+background:linear-gradient(90deg,#ff416c,#ff4b2b);
+box-shadow:0 0 15px rgba(255,0,80,0.6);
+}
+
+/* ===== ANIMATION ===== */
+
+@keyframes fadeUp{
+from{
+opacity:0;
+transform:translateY(20px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+/* ===== MOBILE OPTIMIZATION ===== */
+
+@media(max-width:480px){
+.header-title{
+font-size:16px;
+}
+}
+</style>
+</head>
+<body>
+
+<script>
+if(localStorage.getItem("auth")!=="true"){
+location.href="404.html"
+}
+</script>
+
+<header>
+<img src="assets/logo.png">
+<div class="header-title">Новости компании</div>
+<div class="header-support" onclick="window.open('https://t.me/K1ziFN')">
+@K1ziFN
+</div>
+</header>
+
+<div class="container">
+
+<div class="page-title">Последние события 🔥</div>
+
+<!-- НОВОСТЬ 1 -->
+<div class="card">
+<h3>2 новые пары в нашей компашке ❤️</h3>
+<div class="date">01.03.2026</div>
+<button onclick="location.href='news1.html'">Смотреть</button>
+</div>
+
+<!-- НОВОСТЬ 2 -->
+<div class="card">
+<h3>Еще 2 новые пары! 💕</h3>
+<div class="date">02.03.2026</div>
+<button onclick="location.href='news2.html'">Смотреть</button>
+</div>
+
+<div class="bottom-buttons">
+<button onclick="location.href='home.html'">⬅ Назад на главную</button>
+<button class="logout" onclick="logout()">Выйти</button>
+</div>
+
+</div>
+
+<script>
+function logout(){
+localStorage.removeItem("auth")
+localStorage.removeItem("currentUser")
+location.href="index.html"
+}
+</script>
+
+</body>
+</html>
