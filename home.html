@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Главная</title>
+
+<style>
+body{
+margin:0;
+background:#0f0f1a;
+font-family:sans-serif;
+color:white;
+}
+
+header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:15px;
+background:#141428;
+box-shadow:0 0 15px rgba(0,200,255,0.4);
+}
+
+header img{
+width:40px;
+border-radius:50%;
+}
+
+.card{
+margin:20px;
+padding:20px;
+background:#1e1e2e;
+border-radius:15px;
+box-shadow:0 0 15px rgba(0,200,255,0.3);
+text-align:center;
+}
+
+button{
+padding:12px;
+border:none;
+border-radius:10px;
+background:#0072ff;
+color:white;
+width:100%;
+}
+</style>
+</head>
+<body>
+
+<script>
+if(localStorage.getItem("auth")!=="true"){
+location.href="404.html"
+}
+</script>
+
+<header>
+<img src="assets/logo.png">
+<div>Название Компании</div>
+<div onclick="window.open('https://t.me/K1ziFN')">@K1ziFN</div>
+</header>
+
+<div class="card">
+<h2>Добро пожаловать</h2>
+<p>Участников: 124</p>
+<button onclick="location.href='news.html'">Что новенького?)</button>
+</div>
+
+</body>
+</html>
