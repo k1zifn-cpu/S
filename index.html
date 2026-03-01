@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Вход | Компания</title>
+
+<style>
+body{
+margin:0;
+font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+background:linear-gradient(145deg,#0f0f1a,#1b1b2f);
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+color:white;
+}
+
+.container{
+width:90%;
+max-width:350px;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(20px);
+padding:25px;
+border-radius:20px;
+box-shadow:0 0 25px rgba(0,200,255,0.3);
+animation:fade 0.6s ease-in-out;
+}
+
+h2{text-align:center;}
+
+input{
+width:100%;
+padding:12px;
+margin:8px 0;
+border-radius:12px;
+border:none;
+background:#1e1e2e;
+color:white;
+}
+
+button{
+width:100%;
+padding:12px;
+margin-top:10px;
+border:none;
+border-radius:12px;
+background:linear-gradient(90deg,#00c6ff,#0072ff);
+color:white;
+font-weight:bold;
+}
+
+.switch{
+text-align:center;
+margin-top:15px;
+color:#aaa;
+cursor:pointer;
+}
+
+@keyframes fade{
+from{opacity:0;transform:scale(0.9)}
+to{opacity:1;transform:scale(1)}
+}
+</style>
+</head>
+<body>
+
+<div class="container" id="loginBox">
+<h2>Вход</h2>
+<input id="loginUser" placeholder="Username">
+<input id="loginPass" type="password" placeholder="Пароль">
+<button onclick="login()">Войти</button>
+<div class="switch" onclick="showRegister()">Нет аккаунта? Регистрация</div>
+</div>
+
+<div class="container" id="registerBox" style="display:none">
+<h2>Регистрация</h2>
+<input id="regUser" placeholder="Username">
+<input id="regName" placeholder="Имя">
+<input id="regPass" type="password" placeholder="Пароль">
+<input id="regPass2" type="password" placeholder="Повторите пароль">
+<button onclick="register()">Зарегистрироваться</button>
+<div class="switch" onclick="showLogin()">Уже есть аккаунт? Войти</div>
+</div>
+
+<script>
+if(localStorage.getItem("auth")==="true"){
+location.href="home.html"
+}
+
+function showRegister(){
+loginBox.style.display="none"
+registerBox.style.display="block"
+}
+function showLogin(){
+registerBox.style.display="none"
+loginBox.style.display="block"
+}
+
+function validatePassword(p){
+return p.length>=6 && /[A-Za-z]/.test(p) && /\d/.test(p)
+}
+
+function register(){
+let u=regUser.value
+let n=regName.value
+let p=regPass.value
+let p2=regPass2.value
+
+if(!validatePassword(p)){alert("Пароль минимум 6 символов, буквы и цифры");return}
+if(p!==p2){alert("Пароли не совпадают");return}
+
+let users=JSON.parse(localStorage.getItem("users")||"{}")
+
+if(users[u]){
+alert("Username уже существует")
+return
+}
+
+users[u]={name:n,password:p}
+localStorage.setItem("users",JSON.stringify(users))
+alert("Успешно зарегистрированы, войдите")
+showLogin()
+}
+
+function login(){
+let u=loginUser.value
+let p=loginPass.value
+let users=JSON.parse(localStorage.getItem("users")||"{}")
+
+if(users[u] && users[u].password===p){
+localStorage.setItem("auth","true")
+localStorage.setItem("currentUser",u)
+location.href="home.html"
+}else{
+alert("Ошибка входа. Поддержка: t.me/K1ziFN")
+}
+}
+</script>
+</body>
+</html>
