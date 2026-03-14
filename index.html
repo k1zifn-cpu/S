@@ -38,9 +38,9 @@ nav {
 nav div { flex:1; text-align:center; font-size:1em; color:#fff; cursor:pointer; }
 
 .button-large {
-  font-size:2em; padding:30px 50px; border-radius:20px;
+  font-size:2em; padding:20px 40px; border-radius:20px;
   border:3px solid #fff; box-shadow:0 5px 15px rgba(0,0,0,0.3);
-  background:#4caf50;
+  background:#4caf50; margin:5px;
 }
 
 .shop-item { display:inline-block; margin:5px; padding:5px; border:2px solid #fff; border-radius:10px; cursor:pointer; }
@@ -78,7 +78,8 @@ nav div { flex:1; text-align:center; font-size:1em; color:#fff; cursor:pointer; 
   <button id="upgrade2" class="button-large">+2% (<span id="price2">50</span> монет)</button><br>
   <button id="upgrade5" class="button-large">+5% (<span id="price5">120</span> монет)</button><br>
   <button id="upgrade10" class="button-large">+10% (<span id="price10">300</span> монет)</button><br>
-  <button id="autoButton" class="button-large">Купить автокликер (<span id="autoPrice">50</span> монет)</button>
+  <button id="autoButton" class="button-large">Купить автокликер (<span id="autoPrice">50</span> монет)</button><br><br>
+  <button id="resetButton" class="button-large" style="background:#e53935;">Сбросить прогресс</button>
 </div>
 
 <!-- Магазин -->
@@ -123,6 +124,7 @@ const skinsDiv=document.getElementById('skins');
 
 const upgradesButtons={2:document.getElementById('upgrade2'),5:document.getElementById('upgrade5'),10:document.getElementById('upgrade10')};
 const autoButton=document.getElementById('autoButton');
+const resetButton=document.getElementById('resetButton');
 const price2Display=document.getElementById('price2');
 const price5Display=document.getElementById('price5');
 const price10Display=document.getElementById('price10');
@@ -230,6 +232,14 @@ upgradesButtons[10].addEventListener('click',()=>{
 });
 autoButton.addEventListener('click',()=>{
   if(coins>=autoPrice){ coins-=autoPrice; autoClickers+=1; autoPrice*=10; updateDisplay(); saveGame(); }
+});
+
+// 🔥 Сброс прогресса
+resetButton.addEventListener('click', () => {
+  if(confirm("Вы точно хотите сбросить весь прогресс?")) {
+    localStorage.clear();
+    location.reload();
+  }
 });
 
 // Начальное отображение
