@@ -2,159 +2,194 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Огуречный Кликер 🥒</title>
+<title>Огуречный Хардкор Кликер 🥒</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-  body {
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(135deg, #2e7d32, #a5d6a7);
-    font-family: 'Press Start 2P', cursive;
-    color: #fff;
-    text-align: center;
-    overflow-x: hidden;
-  }
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
-  h1 {
-    margin-top: 20px;
-    font-size: 2em;
-    color: #cddc39;
-    text-shadow: 2px 2px #000;
-  }
+body {
+  margin:0; padding:0;
+  font-family:'Press Start 2P', cursive;
+  background:linear-gradient(135deg,#2e7d32,#a5d6a7);
+  color:#fff;
+  text-align:center;
+  overflow-x:hidden;
+}
 
-  .button {
-    font-size: 2em;
-    padding: 30px 50px;
-    margin: 20px;
-    cursor: pointer;
-    border: 3px solid #fff;
-    border-radius: 20px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    transition: transform 0.1s, box-shadow 0.1s;
-    background: #4caf50;
-  }
-  .button:active { transform: scale(0.95); box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+h1 {
+  margin-top:20px; font-size:2em;
+  color:#cddc39; text-shadow:2px 2px #000;
+}
 
-  #stats, #shop, #upgrades { margin-top: 10px; font-size: 1em; }
+button { cursor:pointer; transition:0.1s; }
+button:active { transform:scale(0.95); }
 
-  .floatingCoin {
-    position: absolute;
-    font-size: 1.5em;
-    color: #ffd700;
-    animation: floatUp 1s ease-out forwards;
-    pointer-events: none;
-    z-index: 1000;
-  }
+#main { padding-bottom:70px; }
 
-  @keyframes floatUp {
-    0% { opacity: 1; transform: translateY(0) scale(1); }
-    100% { opacity: 0; transform: translateY(-100px) scale(1.5); }
-  }
+.tab-content { display:none; padding:10px; }
+.tab-content.active { display:block; }
 
-  .shop-item { display: inline-block; margin: 5px; padding: 5px; border: 2px solid #fff; border-radius: 10px; cursor: pointer; }
-  .shop-item.disabled { opacity: 0.5; cursor: not-allowed; }
+nav {
+  position:fixed; bottom:0; left:0; right:0;
+  height:60px; background:#1b5e20;
+  display:flex; justify-content:space-around; align-items:center;
+  border-top:3px solid #fff;
+}
+
+nav div { flex:1; text-align:center; font-size:1em; color:#fff; cursor:pointer; }
+
+.button-large {
+  font-size:2em; padding:30px 50px; border-radius:20px;
+  border:3px solid #fff; box-shadow:0 5px 15px rgba(0,0,0,0.3);
+  background:#4caf50;
+}
+
+.shop-item { display:inline-block; margin:5px; padding:5px; border:2px solid #fff; border-radius:10px; cursor:pointer; }
+.shop-item.disabled { opacity:0.5; cursor:not-allowed; }
+
+.floatingCoin {
+  position:absolute; font-size:1.5em; color:#ffd700;
+  animation:floatUp 1s ease-out forwards; pointer-events:none; z-index:1000;
+}
+
+@keyframes floatUp {
+  0%{opacity:1;transform:translateY(0) scale(1);}
+  100%{opacity:0;transform:translateY(-100px) scale(1.5);}
+}
 </style>
 </head>
 <body>
 
-<h1>Огуречный Кликер 🥒</h1>
-<button id="clickButton" class="button">🥒</button>
+<h1>Огуречный Хардкор Кликер 🥒</h1>
 
-<div id="stats">
+<div id="main">
+
+<!-- Игра -->
+<div id="gameTab" class="tab-content active">
+  <button id="clickButton" class="button-large">🥒</button>
   <p>Монеты: <span id="coins">0</span></p>
   <p>Монет за клик: <span id="perClick">1</span></p>
   <p>Множитель: <span id="clickBonus">x1</span></p>
   <p>Автокликеры: <span id="autoClickers">0</span></p>
 </div>
 
-<div id="upgrades">
+<!-- Улучшения -->
+<div id="upgradesTab" class="tab-content">
   <h3>Улучшения (+%)</h3>
-  <button id="upgrade2" class="button">+2% (50 монет)</button>
-  <button id="upgrade5" class="button">+5% (120 монет)</button>
-  <button id="upgrade10" class="button">+10% (300 монет)</button>
+  <button id="upgrade2" class="button-large">+2% (<span id="price2">50</span> монет)</button><br>
+  <button id="upgrade5" class="button-large">+5% (<span id="price5">120</span> монет)</button><br>
+  <button id="upgrade10" class="button-large">+10% (<span id="price10">300</span> монет)</button><br>
+  <button id="autoButton" class="button-large">Купить автокликер (<span id="autoPrice">50</span> монет)</button>
 </div>
 
-<div id="shop">
+<!-- Магазин -->
+<div id="shopTab" class="tab-content">
   <h3>Магазин скинов</h3>
   <div id="skins"></div>
 </div>
 
+</div>
+
+<nav>
+  <div id="navUpgrades">🔧 Улучшения</div>
+  <div id="navGame">🎮 Игра</div>
+  <div id="navShop">🛒 Магазин</div>
+</nav>
+
 <script>
+// Основные переменные
 let coins = parseInt(localStorage.getItem('coins')) || 0;
 let perClick = parseFloat(localStorage.getItem('perClick')) || 1;
 let clickBonus = parseFloat(localStorage.getItem('clickBonus')) || 1;
 let autoClickers = parseInt(localStorage.getItem('autoClickers')) || 0;
+let upgrades = {2:parseInt(localStorage.getItem('upgrade2'))||0,5:parseInt(localStorage.getItem('upgrade5'))||0,10:parseInt(localStorage.getItem('upgrade10'))||0};
+let autoPrice = parseInt(localStorage.getItem('autoPrice')) || 50;
 let skinLevel = parseInt(localStorage.getItem('skinLevel')) || 0;
-let upgrades = {
-  2: parseInt(localStorage.getItem('upgrade2')) || 0,
-  5: parseInt(localStorage.getItem('upgrade5')) || 0,
-  10: parseInt(localStorage.getItem('upgrade10')) || 0
-};
 
-const coinsDisplay = document.getElementById('coins');
-const perClickDisplay = document.getElementById('perClick');
-const clickBonusDisplay = document.getElementById('clickBonus');
-const autoClickersDisplay = document.getElementById('autoClickers');
-const clickButton = document.getElementById('clickButton');
-const skinsDiv = document.getElementById('skins');
-
-const upgradesButtons = {
-  2: document.getElementById('upgrade2'),
-  5: document.getElementById('upgrade5'),
-  10: document.getElementById('upgrade10')
-};
-
-// Скины с редкостью и бонусом
+// Скины (цена хардкор: 100x)
 let skins = [
-  {name:'Обычный', price:0, multiplier:1, rarity:'обычный'},
-  {name:'Сочный', price:50, multiplier:1.2, rarity:'редкий'},
-  {name:'Золотой', price:150, multiplier:1.5, rarity:'эпический'},
-  {name:'Магический', price:400, multiplier:2, rarity:'легендарный'}
+  {name:'Обычный', price:1, multiplier:1, rarity:'обычный'},
+  {name:'Сочный', price:100, multiplier:1.2, rarity:'редкий'},
+  {name:'Золотой', price:10000, multiplier:1.5, rarity:'эпический'},
+  {name:'Магический', price:1000000, multiplier:2, rarity:'легендарный'}
 ];
 
+// DOM элементы
+const coinsDisplay=document.getElementById('coins');
+const perClickDisplay=document.getElementById('perClick');
+const clickBonusDisplay=document.getElementById('clickBonus');
+const autoClickersDisplay=document.getElementById('autoClickers');
+const clickButton=document.getElementById('clickButton');
+const skinsDiv=document.getElementById('skins');
+
+const upgradesButtons={2:document.getElementById('upgrade2'),5:document.getElementById('upgrade5'),10:document.getElementById('upgrade10')};
+const autoButton=document.getElementById('autoButton');
+const price2Display=document.getElementById('price2');
+const price5Display=document.getElementById('price5');
+const price10Display=document.getElementById('price10');
+const autoPriceDisplay=document.getElementById('autoPrice');
+
+// Навигация
+document.getElementById('navUpgrades').onclick=()=>showTab('upgradesTab');
+document.getElementById('navGame').onclick=()=>showTab('gameTab');
+document.getElementById('navShop').onclick=()=>showTab('shopTab');
+function showTab(id){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// Сохранение
 function saveGame(){
   localStorage.setItem('coins',coins);
   localStorage.setItem('perClick',perClick);
   localStorage.setItem('clickBonus',clickBonus);
   localStorage.setItem('autoClickers',autoClickers);
-  localStorage.setItem('skinLevel',skinLevel);
   localStorage.setItem('upgrade2',upgrades[2]);
   localStorage.setItem('upgrade5',upgrades[5]);
   localStorage.setItem('upgrade10',upgrades[10]);
+  localStorage.setItem('autoPrice',autoPrice);
+  localStorage.setItem('skinLevel',skinLevel);
 }
 
+// Обновление UI
 function updateDisplay(){
-  coinsDisplay.textContent = Math.floor(coins);
-  perClickDisplay.textContent = (perClick*clickBonus).toFixed(1);
-  clickBonusDisplay.textContent = 'x'+clickBonus.toFixed(2);
-  autoClickersDisplay.textContent = autoClickers;
+  coinsDisplay.textContent=Math.floor(coins);
+  perClickDisplay.textContent=(perClick*clickBonus).toFixed(1);
+  clickBonusDisplay.textContent='x'+clickBonus.toFixed(2);
+  autoClickersDisplay.textContent=autoClickers;
 
   // Апгрейды
-  upgradesButtons[2].disabled = coins<50;
-  upgradesButtons[5].disabled = coins<120;
-  upgradesButtons[10].disabled = coins<300;
+  price2Display.textContent=Math.floor(50*Math.pow(10,upgrades[2]));
+  price5Display.textContent=Math.floor(120*Math.pow(10,upgrades[5]));
+  price10Display.textContent=Math.floor(300*Math.pow(10,upgrades[10]));
+  autoPriceDisplay.textContent=Math.floor(autoPrice);
+
+  upgradesButtons[2].disabled=coins<50*Math.pow(10,upgrades[2]);
+  upgradesButtons[5].disabled=coins<120*Math.pow(10,upgrades[5]);
+  upgradesButtons[10].disabled=coins<300*Math.pow(10,upgrades[10]);
+  autoButton.disabled=coins<autoPrice;
 
   // Магазин
   skinsDiv.innerHTML='';
   skins.forEach((s,i)=>{
-    let div = document.createElement('div');
+    let div=document.createElement('div');
     div.className='shop-item'+(coins>=s.price?'':' disabled');
     div.innerHTML=`${s.name} (${s.rarity})<br>${s.price} монет<br>+${s.multiplier}x`;
-    div.onclick = ()=>{
+    div.onclick=()=>{
       if(coins>=s.price){ coins-=s.price; skinLevel=i; clickBonus=s.multiplier; applySkin(); updateDisplay(); saveGame(); }
     }
     skinsDiv.appendChild(div);
   });
 }
 
+// Скины кнопки
 function applySkin(){
-  const colors = ['#4caf50','#1abc9c','#f1c40f','#f39c12','#9b59b6','#e84393'];
-  clickButton.style.background = colors[skinLevel % colors.length];
+  const colors=['#4caf50','#1abc9c','#f1c40f','#f39c12','#9b59b6','#e84393'];
+  clickButton.style.background=colors[skinLevel % colors.length];
 }
 
 // Плавающие монеты
 function createFloatingCoin(x,y){
-  const coin = document.createElement('div');
+  const coin=document.createElement('div');
   coin.className='floatingCoin';
   coin.textContent='💰';
   coin.style.left=x+'px';
@@ -165,7 +200,7 @@ function createFloatingCoin(x,y){
 
 // Клик по огурцу
 clickButton.addEventListener('click',(e)=>{
-  coins += perClick * clickBonus;
+  coins+=perClick*clickBonus;
   createFloatingCoin(e.clientX,e.clientY);
   updateDisplay();
   saveGame();
@@ -174,21 +209,32 @@ clickButton.addEventListener('click',(e)=>{
 // Автокликер
 setInterval(()=>{
   if(autoClickers>0){
-    coins += autoClickers * perClick * clickBonus;
+    coins+=autoClickers*perClick*clickBonus;
     updateDisplay();
     saveGame();
   }
 },1000);
 
 // Апгрейды
-upgradesButtons[2].addEventListener('click',()=>{ if(coins>=50){coins-=50; clickBonus*=(1.02); upgrades[2]+=1; updateDisplay(); saveGame(); } });
-upgradesButtons[5].addEventListener('click',()=>{ if(coins>=120){coins-=120; clickBonus*=(1.05); upgrades[5]+=1; updateDisplay(); saveGame(); } });
-upgradesButtons[10].addEventListener('click',()=>{ if(coins>=300){coins-=300; clickBonus*=(1.10); upgrades[10]+=1; updateDisplay(); saveGame(); } });
+upgradesButtons[2].addEventListener('click',()=>{
+  let price=Math.floor(50*Math.pow(10,upgrades[2]));
+  if(coins>=price){coins-=price; clickBonus*=(1.02); upgrades[2]+=1; updateDisplay(); saveGame();}
+});
+upgradesButtons[5].addEventListener('click',()=>{
+  let price=Math.floor(120*Math.pow(10,upgrades[5]));
+  if(coins>=price){coins-=price; clickBonus*=(1.05); upgrades[5]+=1; updateDisplay(); saveGame();}
+});
+upgradesButtons[10].addEventListener('click',()=>{
+  let price=Math.floor(300*Math.pow(10,upgrades[10]));
+  if(coins>=price){coins-=price; clickBonus*=(1.10); upgrades[10]+=1; updateDisplay(); saveGame();}
+});
+autoButton.addEventListener('click',()=>{
+  if(coins>=autoPrice){ coins-=autoPrice; autoClickers+=1; autoPrice*=10; updateDisplay(); saveGame(); }
+});
 
 // Начальное отображение
 applySkin();
 updateDisplay();
 </script>
-
 </body>
 </html>
