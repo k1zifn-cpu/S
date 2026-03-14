@@ -1,92 +1,178 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>Важная новость компании</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 800px;
-            margin: 40px auto;
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        h1 {
-            text-align: center;
-        }
-        .date {
-            text-align: center;
-            color: gray;
-            margin-bottom: 20px;
-        }
-        video {
-            width: 100%;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-        .footer {
-            margin-top: 30px;
-            font-size: 14px;
-            color: gray;
-            text-align: center;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Эпический Кликер</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+  body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #1f1c2c, #928dab);
+    font-family: 'Press Start 2P', cursive;
+    color: #fff;
+    text-align: center;
+    overflow-x: hidden;
+  }
+
+  h1 {
+    margin-top: 20px;
+    font-size: 2em;
+    color: #ffdd59;
+    text-shadow: 2px 2px #000;
+  }
+
+  #clickButton {
+    font-size: 2em;
+    padding: 30px 50px;
+    margin: 20px;
+    cursor: pointer;
+    background: #ff6f61;
+    border: 3px solid #fff;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transition: transform 0.1s, box-shadow 0.1s;
+  }
+
+  #clickButton:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+  }
+
+  #stats {
+    margin-top: 20px;
+    font-size: 1em;
+  }
+
+  #upgradeButton, #autoClickerButton {
+    font-size: 1em;
+    padding: 12px 25px;
+    margin: 10px;
+    cursor: pointer;
+    background: #4caf50;
+    border: 2px solid #fff;
+    border-radius: 15px;
+    transition: transform 0.1s, background 0.2s;
+  }
+
+  #upgradeButton:disabled, #autoClickerButton:disabled {
+    background: #888;
+    cursor: not-allowed;
+  }
+
+  #upgradeButton:active, #autoClickerButton:active {
+    transform: scale(0.95);
+  }
+
+  .floatingCoin {
+    position: absolute;
+    font-size: 1.5em;
+    color: #ffd700;
+    animation: floatUp 1s ease-out forwards;
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  @keyframes floatUp {
+    0% { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-100px) scale(1.5); }
+  }
+</style>
 </head>
 <body>
 
-<div class="container">
-    <h1>📢 Важная и очень «скучная» новость</h1>
-    <div class="date">28.02.26 Вечер</div>
+<h1>Эпический Кликер</h1>
+<button id="clickButton">💰 Клик!</button>
 
-    <p>
-        Сегодня в нашей компании произошло важное и крайне «скучное» событие.
-        Состоялся невероятно серьёзный разговор между двумя активными участниками нашего сообщества.
-    </p>
-
-    <p>
-        Одна тигрица охмурила одного тигрёнка. Жаль добряка…
-    </p>
-
-    <p>
-        От всего состава администраторов и всей компании мы поздравляем их
-        с началом этой прекрасной, немного безумной и слегка «скучной» семейной жести.
-    </p>
-
-    <p>
-        Подробности раскрывать страшно — у Леры всё ещё есть вторая тяжёлая сумка,
-        а первую уже сломали об автора статьи.
-    </p>
-
-    <h2 style="text-align:center;">❤️ Лера и Артём ❤️</h2>
-    <p style="text-align:center; font-size:18px;">
-        Поздравляем вас! Горько! 🥂
-    </p>
-
-    <p>
-        Если серьёзно — это первый серьёзный шаг, и вся наша команда искренне
-        желает вам счастья, терпения, взаимопонимания и как можно больше радостных моментов вместе.
-    </p>
-
-    <h2>🎥 Видео события</h2>
-
-    <video controls>
-        <source src="1.mp4" type="video/mp4">
-        Ваш браузер не поддерживает воспроизведение видео.
-    </video>
-
-
-    <div class="footer">
-        © Компания "Алконафты🛸" • 2026
-    </div>
+<div id="stats">
+  <p>Монеты: <span id="coins">0</span></p>
+  <p>Монет за клик: <span id="perClick">1</span></p>
+  <button id="upgradeButton">Улучшить клик (10 монет)</button><br>
+  <button id="autoClickerButton">Купить автокликер (50 монет)</button>
+  <p>Автокликеры: <span id="autoClickers">0</span></p>
 </div>
+
+<script>
+let coins = parseInt(localStorage.getItem('coins')) || 0;
+let perClick = parseInt(localStorage.getItem('perClick')) || 1;
+let upgradeCost = parseInt(localStorage.getItem('upgradeCost')) || 10;
+let autoClickers = parseInt(localStorage.getItem('autoClickers')) || 0;
+let autoClickerCost = 50;
+
+const coinsDisplay = document.getElementById('coins');
+const perClickDisplay = document.getElementById('perClick');
+const autoClickersDisplay = document.getElementById('autoClickers');
+const clickButton = document.getElementById('clickButton');
+const upgradeButton = document.getElementById('upgradeButton');
+const autoClickerButton = document.getElementById('autoClickerButton');
+
+function saveGame() {
+  localStorage.setItem('coins', coins);
+  localStorage.setItem('perClick', perClick);
+  localStorage.setItem('upgradeCost', upgradeCost);
+  localStorage.setItem('autoClickers', autoClickers);
+}
+
+function updateDisplay() {
+  coinsDisplay.textContent = coins;
+  perClickDisplay.textContent = perClick;
+  autoClickersDisplay.textContent = autoClickers;
+  upgradeButton.textContent = `Улучшить клик (${upgradeCost} монет)`;
+  autoClickerButton.textContent = `Купить автокликер (${autoClickerCost} монет)`;
+  upgradeButton.disabled = coins < upgradeCost;
+  autoClickerButton.disabled = coins < autoClickerCost;
+}
+
+function createFloatingCoin(x, y) {
+  const coin = document.createElement('div');
+  coin.className = 'floatingCoin';
+  coin.textContent = '💰';
+  coin.style.left = x + 'px';
+  coin.style.top = y + 'px';
+  document.body.appendChild(coin);
+  setTimeout(() => coin.remove(), 1000);
+}
+
+clickButton.addEventListener('click', (e) => {
+  coins += perClick;
+  createFloatingCoin(e.clientX, e.clientY);
+  updateDisplay();
+  saveGame();
+});
+
+upgradeButton.addEventListener('click', () => {
+  if (coins >= upgradeCost) {
+    coins -= upgradeCost;
+    perClick += 1;
+    upgradeCost = Math.floor(upgradeCost * 1.5);
+    updateDisplay();
+    saveGame();
+  }
+});
+
+autoClickerButton.addEventListener('click', () => {
+  if (coins >= autoClickerCost) {
+    coins -= autoClickerCost;
+    autoClickers += 1;
+    autoClickerCost = Math.floor(autoClickerCost * 1.5);
+    updateDisplay();
+    saveGame();
+  }
+});
+
+// Автокликер: каждая секунда добавляет монеты
+setInterval(() => {
+  if (autoClickers > 0) {
+    coins += autoClickers;
+    updateDisplay();
+    saveGame();
+  }
+}, 1000);
+
+// Начальная загрузка
+updateDisplay();
+</script>
 
 </body>
 </html>
