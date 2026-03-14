@@ -2,14 +2,13 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Эпический Кликер</title>
+<title>Огуречный Кликер 🥒</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
   body {
     margin: 0;
     padding: 0;
-    background: linear-gradient(135deg, #1f1c2c, #928dab);
+    background: linear-gradient(135deg, #2e7d32, #a5d6a7);
     font-family: 'Press Start 2P', cursive;
     color: #fff;
     text-align: center;
@@ -19,51 +18,24 @@
   h1 {
     margin-top: 20px;
     font-size: 2em;
-    color: #ffdd59;
+    color: #cddc39;
     text-shadow: 2px 2px #000;
   }
 
-  #clickButton {
+  .button {
     font-size: 2em;
     padding: 30px 50px;
     margin: 20px;
     cursor: pointer;
-    background: #ff6f61;
     border: 3px solid #fff;
     border-radius: 20px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     transition: transform 0.1s, box-shadow 0.1s;
-  }
-
-  #clickButton:active {
-    transform: scale(0.95);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-  }
-
-  #stats {
-    margin-top: 20px;
-    font-size: 1em;
-  }
-
-  #upgradeButton, #autoClickerButton {
-    font-size: 1em;
-    padding: 12px 25px;
-    margin: 10px;
-    cursor: pointer;
     background: #4caf50;
-    border: 2px solid #fff;
-    border-radius: 15px;
-    transition: transform 0.1s, background 0.2s;
   }
+  .button:active { transform: scale(0.95); box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
 
-  #upgradeButton:disabled, #autoClickerButton:disabled {
-    background: #888;
-    cursor: not-allowed;
-  }
-
-  #upgradeButton:active, #autoClickerButton:active {
-    transform: scale(0.95);
-  }
+  #stats, #shop, #upgrades { margin-top: 10px; font-size: 1em; }
 
   .floatingCoin {
     position: absolute;
@@ -78,99 +50,143 @@
     0% { opacity: 1; transform: translateY(0) scale(1); }
     100% { opacity: 0; transform: translateY(-100px) scale(1.5); }
   }
+
+  .shop-item { display: inline-block; margin: 5px; padding: 5px; border: 2px solid #fff; border-radius: 10px; cursor: pointer; }
+  .shop-item.disabled { opacity: 0.5; cursor: not-allowed; }
 </style>
 </head>
 <body>
 
-<h1>Эпический Кликер</h1>
-<button id="clickButton">💰 Клик!</button>
+<h1>Огуречный Кликер 🥒</h1>
+<button id="clickButton" class="button">🥒</button>
 
 <div id="stats">
   <p>Монеты: <span id="coins">0</span></p>
   <p>Монет за клик: <span id="perClick">1</span></p>
-  <button id="upgradeButton">Улучшить клик (10 монет)</button><br>
-  <button id="autoClickerButton">Купить автокликер (50 монет)</button>
+  <p>Множитель: <span id="clickBonus">x1</span></p>
   <p>Автокликеры: <span id="autoClickers">0</span></p>
+</div>
+
+<div id="upgrades">
+  <h3>Улучшения (+%)</h3>
+  <button id="upgrade2" class="button">+2% (50 монет)</button>
+  <button id="upgrade5" class="button">+5% (120 монет)</button>
+  <button id="upgrade10" class="button">+10% (300 монет)</button>
+</div>
+
+<div id="shop">
+  <h3>Магазин скинов</h3>
+  <div id="skins"></div>
 </div>
 
 <script>
 let coins = parseInt(localStorage.getItem('coins')) || 0;
-let perClick = parseInt(localStorage.getItem('perClick')) || 1;
-let upgradeCost = parseInt(localStorage.getItem('upgradeCost')) || 10;
+let perClick = parseFloat(localStorage.getItem('perClick')) || 1;
+let clickBonus = parseFloat(localStorage.getItem('clickBonus')) || 1;
 let autoClickers = parseInt(localStorage.getItem('autoClickers')) || 0;
-let autoClickerCost = 50;
+let skinLevel = parseInt(localStorage.getItem('skinLevel')) || 0;
+let upgrades = {
+  2: parseInt(localStorage.getItem('upgrade2')) || 0,
+  5: parseInt(localStorage.getItem('upgrade5')) || 0,
+  10: parseInt(localStorage.getItem('upgrade10')) || 0
+};
 
 const coinsDisplay = document.getElementById('coins');
 const perClickDisplay = document.getElementById('perClick');
+const clickBonusDisplay = document.getElementById('clickBonus');
 const autoClickersDisplay = document.getElementById('autoClickers');
 const clickButton = document.getElementById('clickButton');
-const upgradeButton = document.getElementById('upgradeButton');
-const autoClickerButton = document.getElementById('autoClickerButton');
+const skinsDiv = document.getElementById('skins');
 
-function saveGame() {
-  localStorage.setItem('coins', coins);
-  localStorage.setItem('perClick', perClick);
-  localStorage.setItem('upgradeCost', upgradeCost);
-  localStorage.setItem('autoClickers', autoClickers);
+const upgradesButtons = {
+  2: document.getElementById('upgrade2'),
+  5: document.getElementById('upgrade5'),
+  10: document.getElementById('upgrade10')
+};
+
+// Скины с редкостью и бонусом
+let skins = [
+  {name:'Обычный', price:0, multiplier:1, rarity:'обычный'},
+  {name:'Сочный', price:50, multiplier:1.2, rarity:'редкий'},
+  {name:'Золотой', price:150, multiplier:1.5, rarity:'эпический'},
+  {name:'Магический', price:400, multiplier:2, rarity:'легендарный'}
+];
+
+function saveGame(){
+  localStorage.setItem('coins',coins);
+  localStorage.setItem('perClick',perClick);
+  localStorage.setItem('clickBonus',clickBonus);
+  localStorage.setItem('autoClickers',autoClickers);
+  localStorage.setItem('skinLevel',skinLevel);
+  localStorage.setItem('upgrade2',upgrades[2]);
+  localStorage.setItem('upgrade5',upgrades[5]);
+  localStorage.setItem('upgrade10',upgrades[10]);
 }
 
-function updateDisplay() {
-  coinsDisplay.textContent = coins;
-  perClickDisplay.textContent = perClick;
+function updateDisplay(){
+  coinsDisplay.textContent = Math.floor(coins);
+  perClickDisplay.textContent = (perClick*clickBonus).toFixed(1);
+  clickBonusDisplay.textContent = 'x'+clickBonus.toFixed(2);
   autoClickersDisplay.textContent = autoClickers;
-  upgradeButton.textContent = `Улучшить клик (${upgradeCost} монет)`;
-  autoClickerButton.textContent = `Купить автокликер (${autoClickerCost} монет)`;
-  upgradeButton.disabled = coins < upgradeCost;
-  autoClickerButton.disabled = coins < autoClickerCost;
+
+  // Апгрейды
+  upgradesButtons[2].disabled = coins<50;
+  upgradesButtons[5].disabled = coins<120;
+  upgradesButtons[10].disabled = coins<300;
+
+  // Магазин
+  skinsDiv.innerHTML='';
+  skins.forEach((s,i)=>{
+    let div = document.createElement('div');
+    div.className='shop-item'+(coins>=s.price?'':' disabled');
+    div.innerHTML=`${s.name} (${s.rarity})<br>${s.price} монет<br>+${s.multiplier}x`;
+    div.onclick = ()=>{
+      if(coins>=s.price){ coins-=s.price; skinLevel=i; clickBonus=s.multiplier; applySkin(); updateDisplay(); saveGame(); }
+    }
+    skinsDiv.appendChild(div);
+  });
 }
 
-function createFloatingCoin(x, y) {
+function applySkin(){
+  const colors = ['#4caf50','#1abc9c','#f1c40f','#f39c12','#9b59b6','#e84393'];
+  clickButton.style.background = colors[skinLevel % colors.length];
+}
+
+// Плавающие монеты
+function createFloatingCoin(x,y){
   const coin = document.createElement('div');
-  coin.className = 'floatingCoin';
-  coin.textContent = '💰';
-  coin.style.left = x + 'px';
-  coin.style.top = y + 'px';
+  coin.className='floatingCoin';
+  coin.textContent='💰';
+  coin.style.left=x+'px';
+  coin.style.top=y+'px';
   document.body.appendChild(coin);
-  setTimeout(() => coin.remove(), 1000);
+  setTimeout(()=>coin.remove(),1000);
 }
 
-clickButton.addEventListener('click', (e) => {
-  coins += perClick;
-  createFloatingCoin(e.clientX, e.clientY);
+// Клик по огурцу
+clickButton.addEventListener('click',(e)=>{
+  coins += perClick * clickBonus;
+  createFloatingCoin(e.clientX,e.clientY);
   updateDisplay();
   saveGame();
 });
 
-upgradeButton.addEventListener('click', () => {
-  if (coins >= upgradeCost) {
-    coins -= upgradeCost;
-    perClick += 1;
-    upgradeCost = Math.floor(upgradeCost * 1.5);
+// Автокликер
+setInterval(()=>{
+  if(autoClickers>0){
+    coins += autoClickers * perClick * clickBonus;
     updateDisplay();
     saveGame();
   }
-});
+},1000);
 
-autoClickerButton.addEventListener('click', () => {
-  if (coins >= autoClickerCost) {
-    coins -= autoClickerCost;
-    autoClickers += 1;
-    autoClickerCost = Math.floor(autoClickerCost * 1.5);
-    updateDisplay();
-    saveGame();
-  }
-});
+// Апгрейды
+upgradesButtons[2].addEventListener('click',()=>{ if(coins>=50){coins-=50; clickBonus*=(1.02); upgrades[2]+=1; updateDisplay(); saveGame(); } });
+upgradesButtons[5].addEventListener('click',()=>{ if(coins>=120){coins-=120; clickBonus*=(1.05); upgrades[5]+=1; updateDisplay(); saveGame(); } });
+upgradesButtons[10].addEventListener('click',()=>{ if(coins>=300){coins-=300; clickBonus*=(1.10); upgrades[10]+=1; updateDisplay(); saveGame(); } });
 
-// Автокликер: каждая секунда добавляет монеты
-setInterval(() => {
-  if (autoClickers > 0) {
-    coins += autoClickers;
-    updateDisplay();
-    saveGame();
-  }
-}, 1000);
-
-// Начальная загрузка
+// Начальное отображение
+applySkin();
 updateDisplay();
 </script>
 
