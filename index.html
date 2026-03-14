@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Огуречный Хардкор Кликер 🥒</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
@@ -16,14 +17,14 @@ body {
 }
 
 h1 {
-  margin-top:20px; font-size:2em;
-  color:#cddc39; text-shadow:2px 2px #000;
+  margin-top:15px; font-size:1.8em;
+  color:#cddc39; text-shadow:1.5px 1.5px #000;
 }
 
 button { cursor:pointer; transition:0.1s; }
 button:active { transform:scale(0.95); }
 
-#main { padding-bottom:70px; }
+#main { padding-bottom:80px; width:100%; max-width:480px; margin:0 auto; }
 
 .tab-content { display:none; padding:10px; }
 .tab-content.active { display:block; }
@@ -38,12 +39,14 @@ nav {
 nav div { flex:1; text-align:center; font-size:1em; color:#fff; cursor:pointer; }
 
 .button-large {
-  font-size:2em; padding:20px 40px; border-radius:20px;
+  font-size:1.5em; padding:20px 20px; border-radius:20px;
   border:3px solid #fff; box-shadow:0 5px 15px rgba(0,0,0,0.3);
-  background:#4caf50; margin:5px;
+  background:#4caf50; margin:5px; width:90%;
+  max-width:300px;
+  word-wrap: break-word;
 }
 
-.shop-item { display:inline-block; margin:5px; padding:5px; border:2px solid #fff; border-radius:10px; cursor:pointer; }
+.shop-item { display:inline-block; margin:5px; padding:5px; border:2px solid #fff; border-radius:10px; cursor:pointer; min-width:120px;}
 .shop-item.disabled { opacity:0.5; cursor:not-allowed; }
 
 .floatingCoin {
@@ -54,6 +57,12 @@ nav div { flex:1; text-align:center; font-size:1em; color:#fff; cursor:pointer; 
 @keyframes floatUp {
   0%{opacity:1;transform:translateY(0) scale(1);}
   100%{opacity:0;transform:translateY(-100px) scale(1.5);}
+}
+
+/* Адаптивность для мелких экранов */
+@media (max-width:400px){
+  h1 { font-size:1.5em; }
+  .button-large { font-size:1.2em; padding:15px 15px; }
 }
 </style>
 </head>
@@ -75,10 +84,10 @@ nav div { flex:1; text-align:center; font-size:1em; color:#fff; cursor:pointer; 
 <!-- Улучшения -->
 <div id="upgradesTab" class="tab-content">
   <h3>Улучшения (+%)</h3>
-  <button id="upgrade2" class="button-large">+2% (<span id="price2">50</span> монет)</button><br>
-  <button id="upgrade5" class="button-large">+5% (<span id="price5">120</span> монет)</button><br>
-  <button id="upgrade10" class="button-large">+10% (<span id="price10">300</span> монет)</button><br>
-  <button id="autoButton" class="button-large">Купить автокликер (<span id="autoPrice">50</span> монет)</button><br><br>
+  <button id="upgrade2" class="button-large">+2% (<span id="price2">50</span> монет)</button>
+  <button id="upgrade5" class="button-large">+5% (<span id="price5">120</span> монет)</button>
+  <button id="upgrade10" class="button-large">+10% (<span id="price10">300</span> монет)</button>
+  <button id="autoButton" class="button-large">Купить автокликер (<span id="autoPrice">50</span> монет)</button>
   <button id="resetButton" class="button-large" style="background:#e53935;">Сбросить прогресс</button>
 </div>
 
@@ -106,7 +115,7 @@ let upgrades = {2:parseInt(localStorage.getItem('upgrade2'))||0,5:parseInt(local
 let autoPrice = parseInt(localStorage.getItem('autoPrice')) || 50;
 let skinLevel = parseInt(localStorage.getItem('skinLevel')) || 0;
 
-// Скины (цена хардкор: 100x)
+// Скины
 let skins = [
   {name:'Обычный', price:1, multiplier:1, rarity:'обычный'},
   {name:'Сочный', price:100, multiplier:1.2, rarity:'редкий'},
