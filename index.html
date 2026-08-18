@@ -2,312 +2,1406 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Огуречный Хардкор Кликер 🥒</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Лера + Егор ❤️</title>
 
-/* Базовые стили */
-html, body {
-  margin:0; padding:0;
-  height:100%; width:100%;
-  display:flex; flex-direction:column;
-  font-family:'Press Start 2P', cursive;
-  background: linear-gradient(135deg,#2e7d32,#a5d6a7);
-  color:#fff;
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    background:
+        radial-gradient(circle at 20% 10%, rgba(130, 30, 80, .22), transparent 30%),
+        radial-gradient(circle at 80% 90%, rgba(80, 30, 100, .18), transparent 30%),
+        #09090d;
+    color: #f5f5f7;
+    min-height: 100vh;
+}
+
+/* ================= LOGIN ================= */
+
+.screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.login-box {
+    width: 100%;
+    max-width: 430px;
+    background: rgba(22, 22, 29, .88);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 25px;
+    padding: 35px 25px;
+    text-align: center;
+    box-shadow: 0 25px 80px rgba(0,0,0,.5);
+    backdrop-filter: blur(15px);
+}
+
+.heart {
+    font-size: 55px;
+    margin-bottom: 15px;
+    animation: heartbeat 1.8s infinite;
+}
+
+@keyframes heartbeat {
+    0%,100% { transform: scale(1); }
+    15% { transform: scale(1.12); }
+    30% { transform: scale(1); }
 }
 
 h1 {
-  margin:10px 0;
-  font-size:1.8em;
-  color:#cddc39;
-  text-shadow:1.5px 1.5px #000;
-  text-align:center;
+    font-size: 30px;
+    margin-bottom: 10px;
 }
 
-/* Контейнер под контент */
-#main {
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:flex-start;
-  width:100%;
-  padding-bottom:70px; /* место для навигации */
-  overflow:hidden;
+.subtitle {
+    color: #aaa;
+    line-height: 1.5;
+    margin-bottom: 25px;
 }
 
-/* Вкладки */
-.tab-content {
-  flex:1;
-  width:100%;
-  display:none;
-  flex-direction:column;
-  align-items:center;
-  justify-content:flex-start;
-  overflow-y:auto;
-  padding:10px 0;
-}
-.tab-content.active { display:flex; }
-
-/* Кнопки */
-.button-large {
-  font-size:1.5em;
-  padding:15px 20px;
-  border-radius:20px;
-  border:3px solid #fff;
-  box-shadow:0 5px 15px rgba(0,0,0,0.3);
-  background:#4caf50;
-  margin:5px;
-  width:90%;
-  max-width:300px;
-  word-wrap: break-word;
+input, select {
+    width: 100%;
+    background: #111116;
+    border: 1px solid #363640;
+    color: white;
+    padding: 15px;
+    border-radius: 13px;
+    outline: none;
+    font-size: 16px;
+    margin-bottom: 12px;
 }
 
-/* Магазин */
-.shop-item {
-  display:inline-block;
-  margin:5px;
-  padding:5px;
-  border:2px solid #fff;
-  border-radius:10px;
-  cursor:pointer;
-  min-width:120px;
-  text-align:center;
-}
-.shop-item.disabled { opacity:0.5; cursor:not-allowed; }
-
-/* Нижняя навигация */
-nav {
-  position:fixed;
-  bottom:0;
-  left:0; right:0;
-  height:60px;
-  background:#1b5e20;
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
-  border-top:3px solid #fff;
-  z-index:10;
-}
-nav div {
-  flex:1;
-  text-align:center;
-  font-size:1em;
-  color:#fff;
-  cursor:pointer;
+input:focus, select:focus {
+    border-color: #e94c91;
+    box-shadow: 0 0 0 3px rgba(233,76,145,.12);
 }
 
-/* Плавающие монеты */
-.floatingCoin {
-  position:absolute;
-  font-size:1.5em;
-  color:#ffd700;
-  animation:floatUp 1s ease-out forwards;
-  pointer-events:none;
-  z-index:1000;
-}
-@keyframes floatUp {
-  0%{opacity:1;transform:translateY(0) scale(1);}
-  100%{opacity:0;transform:translateY(-100px) scale(1.5);}
+button {
+    width: 100%;
+    border: none;
+    padding: 15px;
+    border-radius: 13px;
+    background: linear-gradient(135deg, #e94c91, #9d3cdb);
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .25s;
 }
 
-/* Адаптивность мелких экранов */
-@media (max-width:400px){
-  h1 { font-size:1.5em; }
-  .button-large { font-size:1.2em; padding:12px 15px; }
+button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+button:active {
+    transform: scale(.98);
+}
+
+.secondary {
+    background: #24242c;
+    margin-top: 10px;
+}
+
+.link {
+    margin-top: 18px;
+    color: #e95a9b;
+    cursor: pointer;
+    font-size: 15px;
+    text-decoration: underline;
+}
+
+.message {
+    min-height: 24px;
+    margin-top: 12px;
+    font-size: 14px;
+}
+
+.error {
+    color: #ff6b7d;
+}
+
+.success {
+    color: #69e6a2;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ================= QUIZ ================= */
+
+.quiz-box {
+    width: 100%;
+    max-width: 600px;
+    background: rgba(22,22,29,.9);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 25px;
+    padding: 30px 22px;
+    text-align: center;
+}
+
+.question-number {
+    color: #e95a9b;
+    font-size: 13px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.question {
+    font-size: 23px;
+    font-weight: 700;
+    line-height: 1.35;
+    margin-bottom: 25px;
+}
+
+.date-input {
+    color-scheme: dark;
+}
+
+.quiz-result {
+    margin-top: 15px;
+    font-weight: 600;
+}
+
+.answer-area {
+    position: relative;
+}
+
+/* ================= FINAL ACCESS ================= */
+
+.access-box {
+    text-align: center;
+    width: 100%;
+    max-width: 430px;
+    background: rgba(22,22,29,.92);
+    padding: 35px 25px;
+    border-radius: 25px;
+    border: 1px solid rgba(255,255,255,.08);
+}
+
+.password-reveal {
+    margin-top: 15px;
+    font-size: 22px;
+    letter-spacing: 2px;
+    color: #ff79b3;
+    cursor: pointer;
+    word-break: break-all;
+}
+
+/* ================= MAIN SITE ================= */
+
+#mainSite {
+    display: none;
+}
+
+.hero {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+    position: relative;
+}
+
+.hero-inner {
+    max-width: 850px;
+}
+
+.hero h2 {
+    font-size: clamp(45px, 12vw, 100px);
+    line-height: .95;
+    letter-spacing: -4px;
+    background: linear-gradient(135deg, #fff, #ff72ad, #b66cff);
+    -webkit-background-clip: text;
+    color: transparent;
+    margin-bottom: 25px;
+}
+
+.hero .date {
+    font-size: 18px;
+    color: #aaa;
+}
+
+.status {
+    display: inline-block;
+    margin-top: 18px;
+    padding: 8px 18px;
+    border-radius: 30px;
+    background: rgba(233,76,145,.12);
+    border: 1px solid rgba(233,76,145,.25);
+    color: #ff72ad;
+}
+
+/* ================= TIMELINE ================= */
+
+.timeline-section {
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+    padding: 40px 20px 100px;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 34px;
+    margin-bottom: 45px;
+}
+
+.timeline {
+    position: relative;
+}
+
+.timeline::before {
+    content: "";
+    position: absolute;
+    left: 15px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(#e94c91, #7137a5, transparent);
+}
+
+.event {
+    position: relative;
+    margin-bottom: 28px;
+    padding-left: 45px;
+}
+
+.event::before {
+    content: "❤";
+    position: absolute;
+    left: 3px;
+    top: 0;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    background: #15151c;
+    border: 2px solid #e94c91;
+    border-radius: 50%;
+    z-index: 2;
+}
+
+.event-card {
+    background: rgba(21,21,28,.8);
+    border: 1px solid rgba(255,255,255,.07);
+    border-radius: 18px;
+    padding: 22px;
+    box-shadow: 0 12px 40px rgba(0,0,0,.18);
+}
+
+.event-date {
+    color: #ff6cab;
+    font-weight: 800;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.event-title {
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.event-text {
+    color: #c4c4ca;
+    line-height: 1.7;
+    white-space: pre-line;
+}
+
+.quote {
+    border-left: 3px solid #e94c91;
+    padding-left: 15px;
+    margin-top: 15px;
+    color: #ddd;
+    font-style: italic;
+}
+
+footer {
+    text-align: center;
+    color: #777;
+    padding: 40px 20px 70px;
+}
+
+.big-heart {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+/* ================= ESCAPE BUTTON ================= */
+
+#yesButton {
+    position: absolute;
+    width: 100px;
+    transition: left .25s ease, top .25s ease;
+}
+
+.no-button {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    margin-top: 120px;
+}
+
+.love-question {
+    min-height: 260px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width: 600px) {
+    .login-box,
+    .quiz-box,
+    .access-box {
+        padding: 28px 18px;
+    }
+
+    .hero {
+        min-height: 60vh;
+    }
+
+    .hero h2 {
+        letter-spacing: -2px;
+    }
+
+    .event {
+        padding-left: 38px;
+    }
+
+    .event-card {
+        padding: 18px;
+    }
+
+    .event-title {
+        font-size: 18px;
+    }
+
+    .event-text {
+        font-size: 15px;
+    }
 }
 </style>
 </head>
+
 <body>
 
-<h1>Огуречный Хардкор Кликер 🥒</h1>
+<!-- ================= LOGIN ================= -->
 
-<div id="main">
+<div id="loginScreen" class="screen">
+    <div class="login-box">
 
-<!-- Игра -->
-<div id="gameTab" class="tab-content active">
-  <button id="clickButton" class="button-large">🥒</button>
-  <p>Монеты: <span id="coins">0</span></p>
-  <p>Монет за клик: <span id="perClick">1</span></p>
-  <p>Множитель: <span id="clickBonus">x1</span></p>
-  <p>Автокликеры: <span id="autoClickers">0</span></p>
+        <div class="heart">❤️</div>
+
+        <h1>Только для Леры</h1>
+
+        <p class="subtitle">
+            Здесь есть кое-что, что я хочу тебе показать.
+            <br>
+            Но сначала нужно доказать, что ты — это ты.
+        </p>
+
+        <input
+            type="password"
+            id="passwordInput"
+            placeholder="Введи пароль..."
+            autocomplete="off"
+        >
+
+        <button onclick="checkPassword()">Войти</button>
+
+        <div id="loginMessage" class="message"></div>
+
+        <div class="link" onclick="showQuiz()">
+            Нету пароля? Получи его тут
+        </div>
+
+    </div>
 </div>
 
-<!-- Улучшения -->
-<div id="upgradesTab" class="tab-content">
-  <h3>Улучшения (+%)</h3>
-  <button id="upgrade2" class="button-large">+2% (<span id="price2">50</span> монет)</button>
-  <button id="upgrade5" class="button-large">+5% (<span id="price5">120</span> монет)</button>
-  <button id="upgrade10" class="button-large">+10% (<span id="price10">300</span> монет)</button>
-  <button id="autoButton" class="button-large">Купить автокликер (<span id="autoPrice">50</span> монет)</button>
-  <button id="resetButton" class="button-large" style="background:#e53935;">Сбросить прогресс</button>
+
+<!-- ================= QUIZ ================= -->
+
+<div id="quizScreen" class="screen hidden">
+    <div class="quiz-box">
+
+        <div class="heart">💗</div>
+
+        <div id="questionNumber" class="question-number">
+            Вопрос 1 из 4
+        </div>
+
+        <div id="question" class="question"></div>
+
+        <div id="answerContainer"></div>
+
+        <div id="quizMessage" class="message"></div>
+
+    </div>
 </div>
 
-<!-- Магазин -->
-<div id="shopTab" class="tab-content">
-  <h3>Магазин скинов</h3>
-  <div id="skins"></div>
+
+<!-- ================= ACCESS ================= -->
+
+<div id="accessScreen" class="screen hidden">
+    <div class="access-box">
+
+        <div class="heart">💖</div>
+
+        <h1>Лер, вам был выдан доступ!</h1>
+
+        <p class="subtitle">
+            Кажется, ты успешно прошла проверку ❤️
+        </p>
+
+        <button id="revealButton" onclick="revealPassword()">
+            Увидеть пароль
+        </button>
+
+        <div id="revealedPassword" class="password-reveal hidden"
+             onclick="copyPassword()">
+            А я скучаю...
+        </div>
+
+        <div id="copyMessage" class="message"></div>
+
+        <button id="enterSiteButton"
+                class="secondary hidden"
+                onclick="showLoginAgain()">
+            Войти на сайт
+        </button>
+
+    </div>
 </div>
+
+
+<!-- ================= MAIN SITE ================= -->
+
+<div id="mainSite">
+
+    <section class="hero">
+        <div class="hero-inner">
+
+            <h2>ЛЕРА + ЕГОР</h2>
+
+            <div class="date">
+                Знакомство: 24 November 2025
+            </div>
+
+            <div class="status">
+                Статус: Френдзона
+            </div>
+
+        </div>
+    </section>
+
+
+    <section class="timeline-section">
+
+        <h2 class="section-title">Наша история</h2>
+
+        <div class="timeline">
+
+            <!-- 18.08 -->
+
+            <div class="event">
+                <div class="event-card">
+                    <div class="event-date">18.08.26</div>
+                    <div class="event-title">
+                        Третий день игнора
+                    </div>
+                    <div class="event-text">
+Мне хреново. Я не понимаю, что я сделал не так.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 17.08 -->
+
+            <div class="event">
+                <div class="event-card">
+                    <div class="event-date">17.08.26</div>
+                    <div class="event-title">
+                        Второй день игнора
+                    </div>
+                    <div class="event-text">
+Позвонила не чтобы что-то объяснить, а сказать, что едут 4 сентября на концерт в Польшу.
+
+Меня позвали, но у меня школа. Я сказал, что могу пропустить, но сказали не надо и всё.
+
+Игнор продолжается.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 16.08 -->
+
+            <div class="event">
+                <div class="event-card">
+                    <div class="event-date">16.08.26</div>
+                    <div class="event-title">
+                        Первый день игнора
+                    </div>
+                    <div class="event-text">
+Первый день игнора с твоей стороны.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 14.08 -->
+
+            <div class="event">
+                <div class="event-card">
+                    <div class="event-date">14.08.26</div>
+                    <div class="event-title">
+                        Свадьба
+                    </div>
+                    <div class="event-text">
+На свадьбе тебе задали вопрос, показывая на меня:
+
+«Лера, это твой парень?»
+
+Ты ответила: «Нет».
+
+И это нормально.
+
+Но было одно «но» — твой ответ:
+
+«Фу, нет конечно».
+
+Вот тогда мне стало обидно. Я хотел уехать, но потом нахреначился.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 08.08 -->
+
+            <div class="event">
+                <div class="event-card">
+                    <div class="event-date">08.08.26</div>
+                    <div class="event-title">
+                        Предложение стать одним целым ❤️
+                    </div>
+                    <div class="event-text">
+4 утра.
+
+«Вы куда идёте гулять?»
+
+На Швайце-Эке мы приезжаем. Пацаны уводят Еву, а я с цветами и лёгким перегаром получаю отказ.
+
+Но этот момент всё равно навсегда останется в моей памяти.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 28.07 -->
+
+            <div class="event">
+                <div class="event-card">
+                    <div class="event-date">28.07.26</div>
+                    <div class="event-title">
+                        Вторая пауза
+                    </div>
+                    <div class="event-text">
+Вторая пауза в общении и всё остальное.
+
+Но уже для меня и Евы.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 27.07 -->
+
+            <div class="event">
+                <div class="event-card">
+                    <div class="event-date">27.07.26</div>
+                    <div class="event-title">
+                        Ещё один важный момент
+                    </div>
+                    <div class="event-text">
+Без подробностей.
+
+Но я был очень счастлив.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 26.07 -->
+
+            <div class="event">
+                <div class="event-card">
+                    <div class="event-date">26.07.26</div>
+                    <div class="event-title">
+                        Официальное расставание
+                    </div>
+                    <div class="event-text">
+Ты официально рассталась с Артёмом.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 29.06 -->
+
+            <div class="event">
+                <div class="event-card">
+                    <div class="event-date">29.06.26</div>
+                    <div class="event-title">
+                        Первая близость
+                    </div>
+                    <div class="event-text">
+Без подробностей.
+
+Но я был очень счастлив.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 27.06 -->
+
+            <div class="event">
+                <div class="event-card">
+                    <div class="event-date">27.06.26</div>
+                    <div class="event-title">
+                        Первый настоящий поцелуй ❤️
+                    </div>
+                    <div class="event-text">
+Ты меня поцеловала после моего вопроса:
+
+«Есть ли у нас шанс?»
+
+Ты сказала «да» и поцеловала.
+
+И это был последний день, когда мы ходили за ручки.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 26.06 -->
+
+            <div class="event">
+                <div class="event-card">
+                    <div class="event-date">26.06.26</div>
+                    <div class="event-title">
+                        Выдача аттестата Леры
+                    </div>
+                    <div class="event-text">
+Я приехал.
+
+Но приехал без красивых цветов и был одет не под формат, в спортивном.
+
+Потом увидел, как ты приняла его цветы. Потом он от тебя не отлипал, а я стоял в сторонке и смотрел.
+
+Мне стало стыдно, и я решил уйти и выпить, чтобы перебить грусть и не исчезать опять.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 20.06 -->
+
+            <div class="event">
+                <div class="event-card">
+                    <div class="event-date">20.06.26</div>
+                    <div class="event-title">
+                        Озеро в 4 утра
+                    </div>
+                    <div class="event-text">
+В 4 утра ты приезжаешь с Евой ко мне с поляком на озеро, чтобы отдать мне бинты, которые ты постирала руками от крови.
+
+Но смотрела ты на меня очень искренними глазами, которые я никогда не забуду.
+
+И тогда ты приняла решение о том, чтобы расстаться с Артёмом.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 17.06 -->
+
+            <div class="event">
+                <div class="event-card">
+                    <div class="event-date">17.06.26</div>
+                    <div class="event-title">
+                        Наша первая пауза
+                    </div>
+                    <div class="event-text">
+Твоя инициатива.
+
+Но в первый день у тебя был Артём целый день, а я целый день был на ремонте.
+
+Хотя ты сказала, что хочешь сделать паузу со мной и Артёмом.
+
+Мне было хреново и я очень сильно скучал. Было даже обидно.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 02.06 -->
+
+            <div class="event">
+                <div class="event-card">
+                    <div class="event-date">02.06.26</div>
+                    <div class="event-title">
+                        Я снова вернулся
+                    </div>
+                    <div class="event-text">
+Я снова возвращаюсь в твою жизнь, потому что не могу без тебя.
+
+Скучал жутко.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 01.06 -->
+
+            <div class="event">
+                <div class="event-card">
+                    <div class="event-date">01.06.26</div>
+                    <div class="event-title">
+                        Второе признание Егора ❤️
+                    </div>
+
+                    <div class="event-text">
+Я написал тебе большое письмо.
+
+Я хотел исчезнуть из твоей жизни, чтобы вам не мешать, потому что моя симпатия к тебе переросла в настоящую любовь, которой, видимо, у меня никогда не было.
+                    </div>
+
+                    <div class="quote">
+                        Лерочка,
+
+                        Я долго думал, стоит ли вообще это писать. Наверное, часть того, что будет здесь, ты уже и так понимаешь. Но я устал делать вид, что всё нормально, поэтому хочу сказать честно.
+
+                        Ты стала для меня очень важным человеком. Настолько важным, что я уже не представляю свою жизнь без нашего общения. Ты знаешь обо мне вещи, которые знают немногие. Ты поддерживала меня в моменты, когда мне было плохо, переживала за меня, радовалась вместе со мной. За всё это я тебе очень благодарен.
+
+                        Мне тяжело это признавать, но мои чувства к тебе давно стали больше, чем просто дружба. Я пытался убедить себя в обратном, пытался отвлечься, и да, когда я говорил про Еву и спрашивал, что делать, я всё это говорил про тебя, но не мог тебе это всё рассказать, чтобы всё не испортить вам с Артёмом.
+
+                        Я пытался заглушить это. Наверное, поэтому в какой-то момент я сам начал путаться в своих чувствах и пытаться смотреть в другую сторону.
+
+                        Сейчас я понимаю, что это была скорее попытка убежать от того, что я чувствовал к тебе, чем что-то настоящее.
+
+                        Но сколько бы я ни пытался разобраться в себе таким способом, в итоге всё равно возвращался к одной и той же мысли — ты мне очень дорога.
+
+                        Я не пишу это для того, чтобы поставить тебя перед выбором, заставить что-то решать или разрушить твои отношения.
+
+                        Наоборот.
+
+                        Я уважаю тебя и твой выбор.
+
+                        Я хочу, чтобы ты была счастлива.
+
+                        Мне просто стало тяжело жить так, будто этих чувств нет.
+
+                        Особенно когда мы много общаемся, проводим время вместе, и при этом я понимаю, что внутри меня происходит совсем не дружеская история.
+
+                        Наверное, поэтому мне нужна небольшая пауза.
+
+                        Не потому что я обиделся. Не потому что злюсь на тебя. И уж точно не потому что ты сделала что-то плохое.
+
+                        А потому что люблю тебя.
+
+                        Мне просто нужно разобраться с собой и привести мысли в порядок.
+
+                        Я очень боюсь потерять тебя. Наверное, это один из моих самых больших страхов сейчас.
+
+                        Но ещё больше я боюсь однажды начать разрушаться изнутри и делать вид, что всё хорошо, когда это уже не так.
+
+                        Ты правда очень дорогой для меня человек.
+
+                        И независимо от того, что будет дальше, я хочу, чтобы ты была счастлива.
+
+                        Искренне.
+
+                        Со мной или без меня.
+
+                        Спасибо тебе за всё хорошее, что было и есть между нами.
+
+                        Я не хочу, чтобы ты из-за этого расстраивалась и тем более плакала. Оно того не стоит.
+
+                        И я хочу, чтобы ты знала — я всегда рядом. Всегда.
+
+                        Даже во время паузы я за тобой приглядываю.
+
+                        И я хочу, чтобы ты не подумала, что это конец.
+
+                        Нет.
+
+                        Это не конец, а только начало.
+
+                        Если будут проблемы или грустно — звони. Я связь не выключаю.
+
+                        Все мои обещания в силе.
+
+                        Береги себя ❤️‍🩹
+                    </div>
+
+                    <div class="quote">
+                        Твой ответ:
+
+                        «Егор, честно, я не знаю, что сказать..
+
+                        Признаться честно, я догадывалась, но думала, что это просто мысли из-за странных действий и поведения в общении со мной.
+
+                        И честно, ты молодец, что написал и признался, потому что надеюсь, тебе стало от этого легче.
+
+                        Я поняла всё, что ты написал...
+
+                        Ты тоже очень важный человек для меня и мне очень нравится с тобой общаться, гулять и проводить время.
+
+                        Я не хочу, чтобы мы прекращали общаться. Очень не хочу, потому что очень привязалась к тебе и просто не вижу конца общения.
+
+                        Ты для меня очень дорог и я не смогу без тебя, потому что ты просто лучший человек, которого я когда-либо встречала.
+
+                        Я очень тебе доверяю и так же есть вещи, которые никто не знает кроме тебя.
+
+                        Ты первый, кто ко мне так относится.
+
+                        Я не знаю, что будет дальше и не понимаю, что делать, но в моей жизни ты мне очень нужен.
+
+                        Я очень за тебя переживаю.
+
+                        Если мы некоторое время не будем общаться, чтобы ты во всём разобрался, то просто знай, что если что-то нужно — ты можешь звонить, писать и я просто всегда буду рядом, если это нужно.
+
+                        Спасибо тебе большое за всё 🫶🏻»
+                    </div>
+                </div>
+            </div>
+
+            <!-- Середина июля -->
+
+            <div class="event">
+                <div class="event-card">
+                    <div class="event-date">Середина июля 2026</div>
+                    <div class="event-title">
+                        Первая ревность
+                    </div>
+                    <div class="event-text">
+Ты пошла гулять со знакомыми 2 на 2.
+
+Очень классно погуляли.
+
+А у меня появилась первая настоящая ревность.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 28.02 -->
+
+            <div class="event">
+                <div class="event-card">
+                    <div class="event-date">28.02.26</div>
+                    <div class="event-title">
+                        Лера и Артём начали встречаться
+                    </div>
+                    <div class="event-text">
+Мне было плохо.
+
+Но я хотел, чтобы ты была счастлива, и я видел, как ты хотела с ним быть, поэтому молчал.
+
+Я помогал вам построить нормальные отношения, чтобы тебе было комфортно.
+
+Поэтому, чтобы вам ничего не испортить своими чувствами, я начал заливать, что нравится мне не Лера, а Ева.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 26.01 -->
+
+            <div class="event">
+                <div class="event-card">
+                    <div class="event-date">26.01.26</div>
+                    <div class="event-title">
+                        Первое признание Егора
+                    </div>
+                    <div class="event-text">
+Я пришёл пьяный с бачонком пива поздно вечером к Лере, чтобы ей всё сказать.
+
+В итоге оказывается, вроде сказал всё, но не дал высказаться Лере и ушёл злой.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 23.01 -->
+
+            <div class="event">
+                <div class="event-card">
+                    <div class="event-date">23.01.26</div>
+                    <div class="event-title">
+                        Первый раз, когда пропал Егор
+                    </div>
+                    <div class="event-text">
+Егору было очень плохо, и он не хотел, чтобы об этом узнала Лера.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 05.01 -->
+
+            <div class="event">
+                <div class="event-card">
+                    <div class="event-date">05.01.26</div>
+                    <div class="event-title">
+                        Первый раз, когда Лера при мне заплакала
+                    </div>
+                    <div class="event-text">
+Тогда моя искра превратилась уже в огонь, который не тух.
+
+И чуть-чуть мокрую кофту с запахом Леры я тоже запомнил.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 01.01 -->
+
+            <div class="event">
+                <div class="event-card">
+                    <div class="event-date">01.01.26</div>
+                    <div class="event-title">
+                        Новый год
+                    </div>
+                    <div class="event-text">
+Егор приехал встретиться не с друзьями, а с Лерой, потому что очень хотел её увидеть и при этом боялся.
+
+Поэтому приехал уже нахреначенный, с разбитым кулаком и полупустой водкой.
+
+А дальше я уже не помню.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 25.12 -->
+
+            <div class="event">
+                <div class="event-card">
+                    <div class="event-date">25.12.25</div>
+                    <div class="event-title">
+                        День рождения Егора 🎂
+                    </div>
+                    <div class="event-text">
+Пошли гулять в Бургер Парк:
+
+Тема, Ева, Лера и Егор.
+
+Егор принёс 1.5 л Бакарди, и там и нахреначились.
+
+И это был первый раз, когда мы ходили за ручку.
+
+Вот тогда и в Егоре вспыхнула искра, которая не гаснет до сих пор...
+                    </div>
+                </div>
+            </div>
+
+            <!-- 01.12 -->
+
+            <div class="event">
+                <div class="event-card">
+                    <div class="event-date">01.12.25</div>
+                    <div class="event-title">
+                        День рождения Леры 🎂
+                    </div>
+                    <div class="event-text">
+Все её поздравляют.
+
+И Егор тоже.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 24.11 -->
+
+            <div class="event">
+                <div class="event-card">
+                    <div class="event-date">24.11.25</div>
+                    <div class="event-title">
+                        Первая встреча ❤️
+                    </div>
+                    <div class="event-text">
+Компания гуляет, и в неё добавляют Егора.
+
+Там и познакомились ближе.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="big-heart">❤️</div>
+        <div>История, которую я не хочу забывать.</div>
+        <br>
+        <div>Лера + Егор</div>
+    </footer>
 
 </div>
 
-<!-- Навигация -->
-<nav>
-  <div id="navUpgrades">🔧 Улучшения</div>
-  <div id="navGame">🎮 Игра</div>
-  <div id="navShop">🛒 Магазин</div>
-</nav>
 
 <script>
-// Переменные
-let coins = parseInt(localStorage.getItem('coins')) || 0;
-let perClick = parseFloat(localStorage.getItem('perClick')) || 1;
-let clickBonus = parseFloat(localStorage.getItem('clickBonus')) || 1;
-let autoClickers = parseInt(localStorage.getItem('autoClickers')) || 0;
-let upgrades = {2:parseInt(localStorage.getItem('upgrade2'))||0,5:parseInt(localStorage.getItem('upgrade5'))||0,10:parseInt(localStorage.getItem('upgrade10'))||0};
-let autoPrice = parseInt(localStorage.getItem('autoPrice')) || 50;
-let skinLevel = parseInt(localStorage.getItem('skinLevel')) || 0;
 
-// Скины
-let skins = [
-  {name:'Обычный', price:1, multiplier:1, rarity:'обычный'},
-  {name:'Сочный', price:100, multiplier:1.2, rarity:'редкий'},
-  {name:'Золотой', price:10000, multiplier:1.5, rarity:'эпический'},
-  {name:'Магический', price:1000000, multiplier:2, rarity:'легендарный'}
+/* ================= DATA ================= */
+
+const PASSWORD = "А я скучаю...";
+
+let attempts = 0;
+let lockedUntil = 0;
+let currentQuestion = 0;
+
+const questions = [
+    {
+        text: "Когда было сделано предложение стать одним целым?",
+        answer: "2026-08-08"
+    },
+    {
+        text: "Когда ты рассталась с парнем официально?",
+        answer: "2026-07-24"
+    },
+    {
+        text: "Когда был первый настоящий поцелуй?",
+        answer: "2026-06-27"
+    }
 ];
 
-// DOM
-const coinsDisplay=document.getElementById('coins');
-const perClickDisplay=document.getElementById('perClick');
-const clickBonusDisplay=document.getElementById('clickBonus');
-const autoClickersDisplay=document.getElementById('autoClickers');
-const clickButton=document.getElementById('clickButton');
-const skinsDiv=document.getElementById('skins');
 
-const upgradesButtons={2:document.getElementById('upgrade2'),5:document.getElementById('upgrade5'),10:document.getElementById('upgrade10')};
-const autoButton=document.getElementById('autoButton');
-const resetButton=document.getElementById('resetButton');
-const price2Display=document.getElementById('price2');
-const price5Display=document.getElementById('price5');
-const price10Display=document.getElementById('price10');
-const autoPriceDisplay=document.getElementById('autoPrice');
+/* ================= LOGIN ================= */
 
-// Навигация
-document.getElementById('navUpgrades').onclick=()=>showTab('upgradesTab');
-document.getElementById('navGame').onclick=()=>showTab('gameTab');
-document.getElementById('navShop').onclick=()=>showTab('shopTab');
-function showTab(id){
-  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
+function checkPassword() {
 
-// Сохранение
-function saveGame(){
-  localStorage.setItem('coins',coins);
-  localStorage.setItem('perClick',perClick);
-  localStorage.setItem('clickBonus',clickBonus);
-  localStorage.setItem('autoClickers',autoClickers);
-  localStorage.setItem('upgrade2',upgrades[2]);
-  localStorage.setItem('upgrade5',upgrades[5]);
-  localStorage.setItem('upgrade10',upgrades[10]);
-  localStorage.setItem('autoPrice',autoPrice);
-  localStorage.setItem('skinLevel',skinLevel);
-}
+    const now = Date.now();
 
-// Обновление UI
-function updateDisplay(){
-  coinsDisplay.textContent=Math.floor(coins);
-  perClickDisplay.textContent=(perClick*clickBonus).toFixed(1);
-  clickBonusDisplay.textContent='x'+clickBonus.toFixed(2);
-  autoClickersDisplay.textContent=autoClickers;
+    if (lockedUntil > now) {
 
-  // Апгрейды
-  price2Display.textContent=Math.floor(50*Math.pow(10,upgrades[2]));
-  price5Display.textContent=Math.floor(120*Math.pow(10,upgrades[5]));
-  price10Display.textContent=Math.floor(300*Math.pow(10,upgrades[10]));
-  autoPriceDisplay.textContent=Math.floor(autoPrice);
+        const minutes = Math.ceil(
+            (lockedUntil - now) / 60000
+        );
 
-  upgradesButtons[2].disabled=coins<50*Math.pow(10,upgrades[2]);
-  upgradesButtons[5].disabled=coins<120*Math.pow(10,upgrades[5]);
-  upgradesButtons[10].disabled=coins<300*Math.pow(10,upgrades[10]);
-  autoButton.disabled=coins<autoPrice;
+        showLoginMessage(
+            `Слишком много неправильных попыток. Попробуй через ${minutes} мин.`,
+            "error"
+        );
 
-  // Магазин
-  skinsDiv.innerHTML='';
-  skins.forEach((s,i)=>{
-    let div=document.createElement('div');
-    div.className='shop-item'+(coins>=s.price?'':' disabled');
-    div.innerHTML=`${s.name} (${s.rarity})<br>${s.price} монет<br>+${s.multiplier}x`;
-    div.onclick=()=>{
-      if(coins>=s.price){ coins-=s.price; skinLevel=i; clickBonus=s.multiplier; applySkin(); updateDisplay(); saveGame(); }
+        return;
     }
-    skinsDiv.appendChild(div);
-  });
+
+    const value =
+        document.getElementById("passwordInput").value;
+
+    if (value === PASSWORD) {
+
+        attempts = 0;
+
+        openMainSite();
+
+        return;
+    }
+
+    attempts++;
+
+    if (attempts >= 3) {
+
+        lockedUntil = Date.now() + 30 * 60 * 1000;
+
+        showLoginMessage(
+            "Три попытки использованы. Вход заблокирован на 30 минут.",
+            "error"
+        );
+
+        document.getElementById("passwordInput").disabled = true;
+
+    } else {
+
+        showLoginMessage(
+            `Неверный пароль. Осталось попыток: ${3 - attempts}`,
+            "error"
+        );
+
+    }
 }
 
-// Скины кнопки
-function applySkin(){
-  const colors=['#4caf50','#1abc9c','#f1c40f','#f39c12','#9b59b6','#e84393'];
-  clickButton.style.background=colors[skinLevel % colors.length];
+function showLoginMessage(text, type) {
+
+    const message =
+        document.getElementById("loginMessage");
+
+    message.textContent = text;
+    message.className = "message " + type;
 }
 
-// Плавающие монеты
-function createFloatingCoin(x,y){
-  const coin=document.createElement('div');
-  coin.className='floatingCoin';
-  coin.textContent='💰';
-  coin.style.left=x+'px';
-  coin.style.top=y+'px';
-  document.body.appendChild(coin);
-  setTimeout(()=>coin.remove(),1000);
+
+/* ================= QUIZ ================= */
+
+function showQuiz() {
+
+    document.getElementById("loginScreen")
+        .classList.add("hidden");
+
+    document.getElementById("quizScreen")
+        .classList.remove("hidden");
+
+    currentQuestion = 0;
+
+    showQuestion();
 }
 
-// Клик по огурцу
-clickButton.addEventListener('click',(e)=>{
-  coins+=perClick*clickBonus;
-  createFloatingCoin(e.clientX,e.clientY);
-  updateDisplay();
-  saveGame();
-});
+function showQuestion() {
 
-// Автокликер
-setInterval(()=>{
-  if(autoClickers>0){
-    coins+=autoClickers*perClick*clickBonus;
-    updateDisplay();
-    saveGame();
-  }
-},1000);
+    const q = questions[currentQuestion];
 
-// Апгрейды
-upgradesButtons[2].addEventListener('click',()=>{
-  let price=Math.floor(50*Math.pow(10,upgrades[2]));
-  if(coins>=price){coins-=price; clickBonus*=(1.02); upgrades[2]+=1; updateDisplay(); saveGame();}
-});
-upgradesButtons[5].addEventListener('click',()=>{
-  let price=Math.floor(120*Math.pow(10,upgrades[5]));
-  if(coins>=price){coins-=price; clickBonus*=(1.05); upgrades[5]+=1; updateDisplay(); saveGame();}
-});
-upgradesButtons[10].addEventListener('click',()=>{
-  let price=Math.floor(300*Math.pow(10,upgrades[10]));
-  if(coins>=price){coins-=price; clickBonus*=(1.10); upgrades[10]+=1; updateDisplay(); saveGame();}
-});
-autoButton.addEventListener('click',()=>{
-  if(coins>=autoPrice){ coins-=autoPrice; autoClickers+=1; autoPrice*=10; updateDisplay(); saveGame(); }
-});
+    document.getElementById("questionNumber")
+        .textContent =
+        `Вопрос ${currentQuestion + 1} из 4`;
 
-// Сброс прогресса
-resetButton.addEventListener('click', () => {
-  if(confirm("Вы точно хотите сбросить весь прогресс?")) {
-    localStorage.clear();
-    location.reload();
-  }
-});
+    document.getElementById("question")
+        .textContent = q.text;
 
-// Начальное отображение
-applySkin();
-updateDisplay();
+    document.getElementById("quizMessage")
+        .textContent = "";
+
+    document.getElementById("answerContainer")
+        .innerHTML = `
+            <input
+                type="date"
+                id="dateAnswer"
+                class="date-input"
+            >
+            <button onclick="checkDateAnswer()">
+                Ответить
+            </button>
+        `;
+}
+
+function checkDateAnswer() {
+
+    const input =
+        document.getElementById("dateAnswer");
+
+    if (!input.value) {
+
+        showQuizMessage(
+            "Выбери дату ❤️",
+            "error"
+        );
+
+        return;
+    }
+
+    const correct =
+        input.value === questions[currentQuestion].answer;
+
+    if (!correct) {
+
+        showQuizMessage(
+            "Неправильно. Попробуй ещё раз.",
+            "error"
+        );
+
+        return;
+    }
+
+    showQuizMessage(
+        "Правильно ❤️",
+        "success"
+    );
+
+    setTimeout(() => {
+
+        currentQuestion++;
+
+        if (currentQuestion < 3) {
+
+            showQuestion();
+
+        } else {
+
+            showLoveQuestion();
+
+        }
+
+    }, 800);
+}
+
+function showLoveQuestion() {
+
+    document.getElementById("questionNumber")
+        .textContent = "Вопрос 4 из 4";
+
+    document.getElementById("question")
+        .textContent = "Ты любишь меня?";
+
+    document.getElementById("answerContainer")
+        .innerHTML = `
+            <div class="love-question" id="loveArea">
+
+                <button
+                    id="yesButton"
+                    onclick="runAway()"
+                    style="left: 10%; top: 25%;"
+                >
+                    Да
+                </button>
+
+                <button
+                    class="no-button"
+                    onclick="correctLoveAnswer()"
+                >
+                    Нет
+                </button>
+
+            </div>
+        `;
+
+    document.getElementById("quizMessage")
+        .textContent = "";
+}
+
+function showQuizMessage(text, type) {
+
+    const message =
+        document.getElementById("quizMessage");
+
+    message.textContent = text;
+    message.className = "message " + type;
+}
+
+
+/* ================= RUN AWAY BUTTON ================= */
+
+function runAway() {
+
+    const button =
+        document.getElementById("yesButton");
+
+    const area =
+        document.getElementById("loveArea");
+
+    const maxX =
+        area.clientWidth - button.offsetWidth - 10;
+
+    const maxY =
+        area.clientHeight - button.offsetHeight - 10;
+
+    const x =
+        Math.max(5, Math.random() * maxX);
+
+    const y =
+        Math.max(5, Math.random() * maxY);
+
+    button.style.left = x + "px";
+    button.style.top = y + "px";
+}
+
+function correctLoveAnswer() {
+
+    document.getElementById("quizScreen")
+        .classList.add("hidden");
+
+    document.getElementById("accessScreen")
+        .classList.remove("hidden");
+}
+
+
+/* ================= PASSWORD REVEAL ================= */
+
+function revealPassword() {
+
+    document.getElementById("revealButton")
+        .classList.add("hidden");
+
+    document.getElementById("revealedPassword")
+        .classList.remove("hidden");
+
+    document.getElementById("enterSiteButton")
+        .classList.remove("hidden");
+}
+
+async function copyPassword() {
+
+    try {
+
+        await navigator.clipboard.writeText(PASSWORD);
+
+        document.getElementById("copyMessage")
+            .textContent = "Пароль скопирован ❤️";
+
+        document.getElementById("copyMessage")
+            .className = "message success";
+
+    } catch {
+
+        document.getElementById("copyMessage")
+            .textContent =
+            "Нажми и удерживай пароль, чтобы скопировать его.";
+
+    }
+}
+
+
+/* ================= RETURN TO LOGIN ================= */
+
+function showLoginAgain() {
+
+    document.getElementById("accessScreen")
+        .classList.add("hidden");
+
+    document.getElementById("loginScreen")
+        .classList.remove("hidden");
+
+    document.getElementById("passwordInput")
+        .value = "";
+
+    showLoginMessage("", "");
+}
+
+
+/* ================= MAIN SITE ================= */
+
+function openMainSite() {
+
+    document.getElementById("loginScreen")
+        .classList.add("hidden");
+
+    document.getElementById("quizScreen")
+        .classList.add("hidden");
+
+    document.getElementById("accessScreen")
+        .classList.add("hidden");
+
+    document.getElementById("mainSite")
+        .style.display = "block";
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+/* ================= ENTER KEY ================= */
+
+document.getElementById("passwordInput")
+    .addEventListener("keydown", function(event) {
+
+        if (event.key === "Enter") {
+            checkPassword();
+        }
+
+    });
+
 </script>
 
 </body>
