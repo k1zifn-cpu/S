@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Фотки ❤️</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+                 "SF Pro Text", "Segoe UI", Arial, sans-serif;
+
+    background:
+        radial-gradient(circle at 15% 0%, rgba(233, 76, 145, 0.16), transparent 30%),
+        radial-gradient(circle at 90% 20%, rgba(157, 60, 219, 0.14), transparent 30%),
+        #09090d;
+
+    color: white;
+}
+
+/* ================= HEADER ================= */
+
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 16px 20px;
+
+    background: rgba(9, 9, 13, 0.72);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.back-button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    color: #ff6cab;
+    text-decoration: none;
+
+    font-size: 17px;
+    font-weight: 500;
+
+    padding: 7px 0;
+}
+
+.back-arrow {
+    font-size: 28px;
+    line-height: 15px;
+    font-weight: 300;
+}
+
+.header-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+
+    font-size: 17px;
+    font-weight: 700;
+    pointer-events: none;
+}
+
+.header-space {
+    width: 60px;
+}
+
+/* ================= CONTENT ================= */
+
+.container {
+    width: 100%;
+    max-width: 1100px;
+
+    margin: 0 auto;
+    padding: 28px 16px 70px;
+}
+
+.top-title {
+    margin-bottom: 8px;
+
+    font-size: clamp(34px, 9vw, 55px);
+    font-weight: 800;
+    letter-spacing: -2px;
+
+    background: linear-gradient(135deg, #ffffff, #ff72ad, #bd77ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.description {
+    color: #92929c;
+    font-size: 16px;
+    margin-bottom: 28px;
+    line-height: 1.5;
+}
+
+/* ================= GALLERY ================= */
+
+.gallery {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fill, minmax(140px, 1fr));
+
+    gap: 8px;
+}
+
+.photo {
+    position: relative;
+    overflow: hidden;
+
+    aspect-ratio: 1 / 1;
+
+    border-radius: 14px;
+
+    background: #17171e;
+
+    cursor: pointer;
+
+    transition:
+        transform .2s ease,
+        filter .2s ease;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,.22);
+}
+
+.photo:active {
+    transform: scale(.97);
+}
+
+.photo img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    transition:
+        transform .35s ease;
+}
+
+.photo:hover img {
+    transform: scale(1.04);
+}
+
+/* ================= PHOTO NUMBER ================= */
+
+.photo-number {
+    position: absolute;
+
+    right: 7px;
+    bottom: 7px;
+
+    min-width: 25px;
+    height: 25px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 7px;
+
+    border-radius: 20px;
+
+    background: rgba(0,0,0,.5);
+
+    backdrop-filter: blur(10px);
+
+    font-size: 12px;
+    font-weight: 600;
+
+    color: rgba(255,255,255,.85);
+}
+
+/* ================= MODAL ================= */
+
+.viewer {
+    position: fixed;
+    inset: 0;
+
+    z-index: 1000;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0,0,0,.94);
+
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    opacity: 0;
+
+    transition: opacity .25s ease;
+}
+
+.viewer.active {
+    display: flex;
+}
+
+.viewer.visible {
+    opacity: 1;
+}
+
+.viewer-image {
+    max-width: 100%;
+    max-height: 100%;
+
+    object-fit: contain;
+
+    user-select: none;
+
+    animation: openPhoto .25s ease;
+}
+
+@keyframes openPhoto {
+    from {
+        opacity: 0;
+        transform: scale(.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ================= CLOSE ================= */
+
+.close-button {
+    position: absolute;
+
+    top: max(18px, env(safe-area-inset-top));
+    right: 18px;
+
+    z-index: 5;
+
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.14);
+
+    backdrop-filter: blur(15px);
+
+    color: white;
+
+    font-size: 28px;
+    font-weight: 300;
+
+    cursor: pointer;
+}
+
+/* ================= COUNTER ================= */
+
+.counter {
+    position: absolute;
+
+    top: max(25px, env(safe-area-inset-top));
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    color: rgba(255,255,255,.8);
+
+    font-size: 15px;
+    font-weight: 600;
+
+    padding: 8px 14px;
+
+    border-radius: 20px;
+
+    background: rgba(255,255,255,.1);
+
+    backdrop-filter: blur(15px);
+}
+
+/* ================= ARROWS ================= */
+
+.nav-button {
+    position: absolute;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.12);
+
+    backdrop-filter: blur(15px);
+
+    color: white;
+
+    font-size: 34px;
+
+    cursor: pointer;
+
+    z-index: 5;
+
+    transition: .2s;
+}
+
+.nav-button:hover {
+    background: rgba(255,255,255,.2);
+}
+
+.nav-button:active {
+    transform: translateY(-50%) scale(.92);
+}
+
+.prev {
+    left: 20px;
+}
+
+.next {
+    right: 20px;
+}
+
+/* ================= FOOTER ================= */
+
+.gallery-footer {
+    text-align: center;
+
+    color: #62626c;
+
+    font-size: 14px;
+
+    padding-top: 45px;
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 600px) {
+
+    .header {
+        padding:
+            max(14px, env(safe-area-inset-top))
+            16px
+            14px;
+    }
+
+    .container {
+        padding: 25px 10px 55px;
+    }
+
+    .top-title {
+        padding-left: 6px;
+    }
+
+    .description {
+        padding-left: 6px;
+    }
+
+    .gallery {
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 6px;
+    }
+
+    .photo {
+        border-radius: 11px;
+    }
+
+    .nav-button {
+        width: 44px;
+        height: 44px;
+
+        font-size: 28px;
+    }
+
+    .prev {
+        left: 10px;
+    }
+
+    .next {
+        right: 10px;
+    }
+
+}
+
+@media (min-width: 850px) {
+
+    .gallery {
+        grid-template-columns:
+            repeat(5, 1fr);
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header class="header">
+
+    <a href="index.html" class="back-button">
+        <span class="back-arrow">‹</span>
+        <span>Назад</span>
+    </a>
+
+    <div class="header-title">
+        Фотки ❤️
+    </div>
+
+    <div class="header-space"></div>
+
+</header>
+
+
+<!-- ================= GALLERY ================= -->
+
+<main class="container">
+
+    <h1 class="top-title">
+        Наши фотки ❤️
+    </h1>
+
+    <p class="description">
+        40 моментов, которые останутся здесь.
+    </p>
+
+    <div class="gallery" id="gallery"></div>
+
+    <div class="gallery-footer">
+        Лера + Егор ❤️
+    </div>
+
+</main>
+
+
+<!-- ================= PHOTO VIEWER ================= -->
+
+<div class="viewer" id="viewer">
+
+    <button
+        class="close-button"
+        onclick="closeViewer()"
+        aria-label="Закрыть"
+    >
+        ×
+    </button>
+
+    <div class="counter" id="counter">
+        1 / 40
+    </div>
+
+    <button
+        class="nav-button prev"
+        onclick="previousPhoto()"
+        aria-label="Предыдущая фотография"
+    >
+        ‹
+    </button>
+
+    <img
+        src=""
+        alt="Фотография"
+        class="viewer-image"
+        id="viewerImage"
+    >
+
+    <button
+        class="nav-button next"
+        onclick="nextPhoto()"
+        aria-label="Следующая фотография"
+    >
+        ›
+    </button>
+
+</div>
+
+
+<script>
+
+/* ================= PHOTOS ================= */
+
+const gallery =
+    document.getElementById("gallery");
+
+const totalPhotos = 40;
+
+let currentPhoto = 1;
+
+
+/* ================= CREATE GALLERY ================= */
+
+for (let i = 1; i <= totalPhotos; i++) {
+
+    const photo =
+        document.createElement("div");
+
+    photo.className = "photo";
+
+    photo.innerHTML = `
+        <img
+            src="${i}.jpeg"
+            alt="Фото ${i}"
+            loading="lazy"
+        >
+
+        <div class="photo-number">
+            ${i}
+        </div>
+    `;
+
+    photo.addEventListener(
+        "click",
+        () => openViewer(i)
+    );
+
+    gallery.appendChild(photo);
+}
+
+
+/* ================= OPEN ================= */
+
+function openViewer(number) {
+
+    currentPhoto = number;
+
+    const viewer =
+        document.getElementById("viewer");
+
+    const image =
+        document.getElementById("viewerImage");
+
+    image.src =
+        `${currentPhoto}.jpeg`;
+
+    document.getElementById("counter")
+        .textContent =
+        `${currentPhoto} / ${totalPhotos}`;
+
+    viewer.classList.add("active");
+
+    setTimeout(() => {
+        viewer.classList.add("visible");
+    }, 10);
+
+    document.body.style.overflow = "hidden";
+}
+
+
+/* ================= CLOSE ================= */
+
+function closeViewer() {
+
+    const viewer =
+        document.getElementById("viewer");
+
+    viewer.classList.remove("visible");
+
+    setTimeout(() => {
+        viewer.classList.remove("active");
+    }, 250);
+
+    document.body.style.overflow = "";
+}
+
+
+/* ================= NEXT ================= */
+
+function nextPhoto() {
+
+    currentPhoto++;
+
+    if (currentPhoto > totalPhotos) {
+        currentPhoto = 1;
+    }
+
+    updateViewer();
+}
+
+
+/* ================= PREVIOUS ================= */
+
+function previousPhoto() {
+
+    currentPhoto--;
+
+    if (currentPhoto < 1) {
+        currentPhoto = totalPhotos;
+    }
+
+    updateViewer();
+}
+
+
+/* ================= UPDATE ================= */
+
+function updateViewer() {
+
+    const image =
+        document.getElementById("viewerImage");
+
+    image.style.opacity = "0";
+
+    setTimeout(() => {
+
+        image.src =
+            `${currentPhoto}.jpeg`;
+
+        document.getElementById("counter")
+            .textContent =
+            `${currentPhoto} / ${totalPhotos}`;
+
+        image.style.opacity = "1";
+
+    }, 120);
+}
+
+
+/* ================= KEYBOARD ================= */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        const viewer =
+            document.getElementById("viewer");
+
+        if (!viewer.classList.contains("active")) {
+            return;
+        }
+
+        if (event.key === "Escape") {
+            closeViewer();
+        }
+
+        if (event.key === "ArrowRight") {
+            nextPhoto();
+        }
+
+        if (event.key === "ArrowLeft") {
+            previousPhoto();
+        }
+
+    }
+);
+
+
+/* ================= SWIPE ================= */
+
+let touchStartX = 0;
+let touchEndX = 0;
+
+const viewer =
+    document.getElementById("viewer");
+
+viewer.addEventListener(
+    "touchstart",
+    function(event) {
+
+        touchStartX =
+            event.changedTouches[0].screenX;
+
+    },
+    { passive: true }
+);
+
+viewer.addEventListener(
+    "touchend",
+    function(event) {
+
+        touchEndX =
+            event.changedTouches[0].screenX;
+
+        handleSwipe();
+
+    },
+    { passive: true }
+);
+
+
+function handleSwipe() {
+
+    const difference =
+        touchEndX - touchStartX;
+
+    if (Math.abs(difference) < 50) {
+        return;
+    }
+
+    if (difference > 0) {
+        previousPhoto();
+    } else {
+        nextPhoto();
+    }
+}
+
+</script>
+
+</body>
+</html>
