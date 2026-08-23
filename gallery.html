@@ -158,15 +158,12 @@ body {
 
     object-fit: cover;
 
-    transition:
-        transform .35s ease;
+    transition: transform .35s ease;
 }
 
 .photo:hover img {
     transform: scale(1.04);
 }
-
-/* ================= PHOTO NUMBER ================= */
 
 .photo-number {
     position: absolute;
@@ -195,7 +192,7 @@ body {
     color: rgba(255,255,255,.85);
 }
 
-/* ================= MODAL ================= */
+/* ================= VIEWER ================= */
 
 .viewer {
     position: fixed;
@@ -232,6 +229,8 @@ body {
     object-fit: contain;
 
     user-select: none;
+
+    transition: opacity .12s ease;
 
     animation: openPhoto .25s ease;
 }
@@ -304,7 +303,7 @@ body {
     backdrop-filter: blur(15px);
 }
 
-/* ================= ARROWS ================= */
+/* ================= NAVIGATION ================= */
 
 .nav-button {
     position: absolute;
@@ -381,18 +380,13 @@ body {
         padding: 25px 10px 55px;
     }
 
-    .top-title {
-        padding-left: 6px;
-    }
-
+    .top-title,
     .description {
         padding-left: 6px;
     }
 
     .gallery {
-        grid-template-columns:
-            repeat(2, 1fr);
-
+        grid-template-columns: repeat(2, 1fr);
         gap: 6px;
     }
 
@@ -403,7 +397,6 @@ body {
     .nav-button {
         width: 44px;
         height: 44px;
-
         font-size: 28px;
     }
 
@@ -414,17 +407,14 @@ body {
     .next {
         right: 10px;
     }
-
 }
 
 @media (min-width: 850px) {
-
     .gallery {
-        grid-template-columns:
-            repeat(5, 1fr);
+        grid-template-columns: repeat(5, 1fr);
     }
-
 }
+
 </style>
 </head>
 
@@ -457,7 +447,7 @@ body {
     </h1>
 
     <p class="description">
-        40 моментов, которые останутся здесь.
+        Моменты, которые останутся здесь.
     </p>
 
     <div class="gallery" id="gallery"></div>
@@ -482,7 +472,7 @@ body {
     </button>
 
     <div class="counter" id="counter">
-        1 / 40
+        1 / 1
     </div>
 
     <button
@@ -515,62 +505,136 @@ body {
 
 /* ================= PHOTOS ================= */
 
-const gallery =
-    document.getElementById("gallery");
+const gallery = document.getElementById("gallery");
 
-const totalPhotos = 40;
+const photos = [
 
-let currentPhoto = 1;
+    "photo_2026-08-23_11-59-14.jpg",
+    "photo_2026-08-23_11-59-13.jpg",
+
+    "photo_2026-08-23_11-59-12 (2).jpg",
+    "photo_2026-08-23_11-59-12.jpg",
+
+    "photo_2026-08-23_11-59-11.jpg",
+    "photo_2026-08-23_11-59-10.jpg",
+
+    "photo_2026-08-23_11-59-09 (2).jpg",
+    "photo_2026-08-23_11-59-09.jpg",
+
+    "photo_2026-08-23_11-59-08.jpg",
+
+    "photo_2026-08-23_11-59-07 (2).jpg",
+    "photo_2026-08-23_11-59-07.jpg",
+
+    "photo_2026-08-23_11-59-06 (2).jpg",
+    "photo_2026-08-23_11-59-06.jpg",
+
+    "photo_2026-08-23_11-59-05.jpg",
+
+    "photo_2026-08-23_11-59-04 (2).jpg",
+    "photo_2026-08-23_11-59-04.jpg",
+
+    "photo_2026-08-23_11-59-03.jpg",
+
+    "photo_2026-08-23_11-59-02 (2).jpg",
+    "photo_2026-08-23_11-59-02.jpg",
+
+    "photo_2026-08-23_11-59-01.jpg",
+
+    "photo_2026-08-23_11-59-00 (2).jpg",
+    "photo_2026-08-23_11-59-00.jpg",
+
+    "photo_2026-08-23_11-58-59 (2).jpg",
+    "photo_2026-08-23_11-58-59.jpg",
+
+    "photo_2026-08-23_11-58-58.jpg",
+
+    "photo_2026-08-23_11-58-57 (2).jpg",
+    "photo_2026-08-23_11-58-57.jpg",
+
+    "photo_2026-08-23_11-58-56 (2).jpg",
+    "photo_2026-08-23_11-58-56.jpg",
+
+    "photo_2026-08-23_11-58-55 (2).jpg",
+    "photo_2026-08-23_11-58-55.jpg",
+
+    "photo_2026-08-23_11-58-54 (2).jpg",
+    "photo_2026-08-23_11-58-54.jpg",
+
+    "photo_2026-08-23_11-58-53 (2).jpg",
+    "photo_2026-08-23_11-58-53.jpg",
+
+    "photo_2026-08-23_11-58-52 (2).jpg",
+    "photo_2026-08-23_11-58-52.jpg",
+
+    "photo_2026-08-23_11-58-51 (2).jpg",
+    "photo_2026-08-23_11-58-51.jpg",
+
+    "photo_2026-08-23_11-58-50 (2).jpg",
+    "photo_2026-08-23_11-58-50.jpg",
+
+    "photo_2026-08-23_11-58-49.jpg",
+
+    "photo_2026-08-23_11-58-48 (2).jpg",
+    "photo_2026-08-23_11-58-48.jpg",
+
+    "photo_2026-08-23_11-58-47.jpg",
+
+    "photo_2026-08-23_11-58-46 (2).jpg",
+    "photo_2026-08-23_11-58-46.jpg",
+
+    "photo_2026-08-23_11-58-45.jpg",
+    "photo_2026-08-23_11-58-44.jpg"
+
+];
+
+const totalPhotos = photos.length;
+
+let currentPhoto = 0;
 
 
 /* ================= CREATE GALLERY ================= */
 
-for (let i = 1; i <= totalPhotos; i++) {
+photos.forEach((photoName, index) => {
 
-    const photo =
-        document.createElement("div");
+    const photo = document.createElement("div");
 
     photo.className = "photo";
 
     photo.innerHTML = `
         <img
-            src="${i}.jpeg"
-            alt="Фото ${i}"
+            src="${photoName}"
+            alt="Фото ${index + 1}"
             loading="lazy"
         >
 
         <div class="photo-number">
-            ${i}
+            ${index + 1}
         </div>
     `;
 
-    photo.addEventListener(
-        "click",
-        () => openViewer(i)
-    );
+    photo.addEventListener("click", () => {
+        openViewer(index);
+    });
 
     gallery.appendChild(photo);
-}
+
+});
 
 
-/* ================= OPEN ================= */
+/* ================= OPEN VIEWER ================= */
 
-function openViewer(number) {
+function openViewer(index) {
 
-    currentPhoto = number;
+    currentPhoto = index;
 
-    const viewer =
-        document.getElementById("viewer");
+    const viewer = document.getElementById("viewer");
+    const image = document.getElementById("viewerImage");
 
-    const image =
-        document.getElementById("viewerImage");
+    image.src = photos[currentPhoto];
 
-    image.src =
-        `${currentPhoto}.jpeg`;
-
-    document.getElementById("counter")
-        .textContent =
-        `${currentPhoto} / ${totalPhotos}`;
+    document.getElementById("counter").textContent =
+        `${currentPhoto + 1} / ${totalPhotos}`;
 
     viewer.classList.add("active");
 
@@ -586,8 +650,7 @@ function openViewer(number) {
 
 function closeViewer() {
 
-    const viewer =
-        document.getElementById("viewer");
+    const viewer = document.getElementById("viewer");
 
     viewer.classList.remove("visible");
 
@@ -605,8 +668,8 @@ function nextPhoto() {
 
     currentPhoto++;
 
-    if (currentPhoto > totalPhotos) {
-        currentPhoto = 1;
+    if (currentPhoto >= totalPhotos) {
+        currentPhoto = 0;
     }
 
     updateViewer();
@@ -619,31 +682,28 @@ function previousPhoto() {
 
     currentPhoto--;
 
-    if (currentPhoto < 1) {
-        currentPhoto = totalPhotos;
+    if (currentPhoto < 0) {
+        currentPhoto = totalPhotos - 1;
     }
 
     updateViewer();
 }
 
 
-/* ================= UPDATE ================= */
+/* ================= UPDATE VIEWER ================= */
 
 function updateViewer() {
 
-    const image =
-        document.getElementById("viewerImage");
+    const image = document.getElementById("viewerImage");
 
     image.style.opacity = "0";
 
     setTimeout(() => {
 
-        image.src =
-            `${currentPhoto}.jpeg`;
+        image.src = photos[currentPhoto];
 
-        document.getElementById("counter")
-            .textContent =
-            `${currentPhoto} / ${totalPhotos}`;
+        document.getElementById("counter").textContent =
+            `${currentPhoto + 1} / ${totalPhotos}`;
 
         image.style.opacity = "1";
 
@@ -653,31 +713,27 @@ function updateViewer() {
 
 /* ================= KEYBOARD ================= */
 
-document.addEventListener(
-    "keydown",
-    function(event) {
+document.addEventListener("keydown", function(event) {
 
-        const viewer =
-            document.getElementById("viewer");
+    const viewer = document.getElementById("viewer");
 
-        if (!viewer.classList.contains("active")) {
-            return;
-        }
-
-        if (event.key === "Escape") {
-            closeViewer();
-        }
-
-        if (event.key === "ArrowRight") {
-            nextPhoto();
-        }
-
-        if (event.key === "ArrowLeft") {
-            previousPhoto();
-        }
-
+    if (!viewer.classList.contains("active")) {
+        return;
     }
-);
+
+    if (event.key === "Escape") {
+        closeViewer();
+    }
+
+    if (event.key === "ArrowRight") {
+        nextPhoto();
+    }
+
+    if (event.key === "ArrowLeft") {
+        previousPhoto();
+    }
+
+});
 
 
 /* ================= SWIPE ================= */
@@ -685,32 +741,24 @@ document.addEventListener(
 let touchStartX = 0;
 let touchEndX = 0;
 
-const viewer =
-    document.getElementById("viewer");
+const viewer = document.getElementById("viewer");
 
-viewer.addEventListener(
-    "touchstart",
-    function(event) {
+viewer.addEventListener("touchstart", function(event) {
 
-        touchStartX =
-            event.changedTouches[0].screenX;
+    touchStartX =
+        event.changedTouches[0].screenX;
 
-    },
-    { passive: true }
-);
+}, { passive: true });
 
-viewer.addEventListener(
-    "touchend",
-    function(event) {
 
-        touchEndX =
-            event.changedTouches[0].screenX;
+viewer.addEventListener("touchend", function(event) {
 
-        handleSwipe();
+    touchEndX =
+        event.changedTouches[0].screenX;
 
-    },
-    { passive: true }
-);
+    handleSwipe();
+
+}, { passive: true });
 
 
 function handleSwipe() {
@@ -727,6 +775,7 @@ function handleSwipe() {
     } else {
         nextPhoto();
     }
+
 }
 
 </script>
