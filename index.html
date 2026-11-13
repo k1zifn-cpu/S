@@ -648,6 +648,22 @@ a { transition:color .2s ease,opacity .2s ease; }
   .motion-reveal { opacity:1; transform:none; filter:none; }
 }
 
+
+/* SAFETY FIX: the history must never be hidden by entrance animations */
+.timeline-section,
+.timeline-section.motion-reveal,
+.timeline-section .event,
+.timeline-section .event-card,
+.timeline-section .event.motion-reveal,
+.timeline-section .event-card.motion-reveal,
+.timeline-section .motion-reveal,
+.timeline-section .motion-reveal.is-visible {
+  opacity: 1 !important;
+  visibility: visible !important;
+  filter: none !important;
+  transform: none !important;
+}
+
 </style>
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="shortcut icon" href="favicon.ico">
