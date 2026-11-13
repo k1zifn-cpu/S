@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Лера + Егор ❤️</title>
+<title>Л+Е</title>
 
 <style>
 * {
@@ -489,6 +489,74 @@ footer {
     }
 }
 
+
+/* ================= IOS GLASS HEADER ================= */
+.site-header {
+    position: sticky;
+    top: 14px;
+    z-index: 1000;
+    width: min( calc(100% - 32px), 1100px );
+    margin: 14px auto 0;
+    padding: 11px 13px 11px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    border: 1px solid rgba(255,255,255,.17);
+    border-radius: 22px;
+    background: rgba(30, 30, 38, .58);
+    -webkit-backdrop-filter: saturate(180%) blur(24px);
+    backdrop-filter: saturate(180%) blur(24px);
+    box-shadow: 0 8px 32px rgba(0,0,0,.22),
+                inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+.site-header-title {
+    color: rgba(255,255,255,.96);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -.25px;
+}
+
+.gallery-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 0 17px;
+    border: 1px solid rgba(255,255,255,.13);
+    border-radius: 15px;
+    color: #fff;
+    background: rgba(255,255,255,.11);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 650;
+    white-space: nowrap;
+    transition: background .2s ease, transform .2s ease;
+}
+
+.gallery-link:hover {
+    background: rgba(255,255,255,.19);
+    transform: translateY(-1px);
+}
+
+.gallery-link:active {
+    transform: scale(.97);
+}
+
+@media (max-width: 480px) {
+    .site-header {
+        top: 9px;
+        width: calc(100% - 22px);
+        margin-top: 9px;
+        padding: 9px 10px 9px 15px;
+        border-radius: 19px;
+    }
+    .site-header-title { font-size: 15px; }
+    .gallery-link { min-height: 37px; padding: 0 14px; }
+}
+
+
 </style>
 </head>
 
@@ -587,6 +655,12 @@ footer {
 
 <div id="mainSite">
 
+<div class="site-header" role="navigation" aria-label="Основная навигация">
+    <div class="site-header-title">Наша история</div>
+    <a class="gallery-link" href="gallery.html">Галерея</a>
+</div>
+
+
     <section class="hero">
         <div class="hero-inner">
 
@@ -597,7 +671,7 @@ footer {
             </div>
 
             <div class="status">
-                Статус: 🔻Знакомые+🔻
+                Статус: ⬆️Близкие⬆️
             </div>
 
         </div>
@@ -609,6 +683,36 @@ footer {
         <h2 class="section-title">Наша история</h2>
 
         <div class="timeline">
+
+            <!-- Ноябрь 2026 -->
+
+            <div class="event">
+                <div class="event-card">
+                    <div class="event-date">Ноябрь 2026</div>
+                    <div class="event-title">
+                        Первые нотки доверия ❤️‍🩹
+                    </div>
+                    <div class="event-text">
+Картина уже понемногу улучшается. Появляются первые нотки доверия. Мы обнимаемся при встрече и прощании, проводим время вместе, и мне от этого очень хорошо.
+
+Но поговорить с тобой по душам всё ещё хочется. При этом я понимаю, что, возможно, между нами ничего и не было. Ты недавно рассказала, что всё это время скучала по нему, а может, скучаешь и сейчас, потому что любила его. Ты говорила и про знакомых: когда была с ним, их не было, а теперь всё по-другому.
+
+Я не знаю… Мне очень хочется поговорить с тобой, но я не хочу портить тебе настроение или делать неприятно. Недавно я услышал от Евы, что получать цветы от человека, которого не любишь, — совсем не в радость. И теперь даже не понимаю, можно ли тебе дарить цветы и нужно ли тебе это вообще.
+
+Многое мне непонятно. Недавно у тебя была интрижка, а я даже не рассматриваю кого-то другого. Я люблю одну тебя.
+
+Жаль, что мы не можем обо всём этом поговорить. Я понимаю, что сейчас ты ничего не хочешь, но и снова быть для тебя просто интрижкой я не хочу. Я строю планы на что-то серьёзное между нами, а ты говоришь об интрижках, знакомых и о том, что отношения тебе не нужны.
+
+Я не знаю, чем всё это закончится. Но просто знай: я тебя люблю и никогда не желал тебе зла. Я очень сильно виню себя во многом, просто не показываю этого.
+
+Наверное, ты никогда не прочтёшь эту запись. Возможно, тебе уже давно всё равно на меня. Но для меня эта страница — самое ценное, что у меня есть. Здесь хранится всё, что было между нами.
+
+Я благодарен тебе за всё. Не знаю, чем закончится наша история, но рядом с тобой я очень счастлив. До тебя я не знал, что такое настоящая любовь, и даже не представлял, что умею плакать в одиночестве из-за человека.
+
+Люблю тебя, моё солнышко… ❤️
+                    </div>
+                </div>
+            </div>
 
             <!-- 19.09 -->
 
