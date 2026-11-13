@@ -557,6 +557,97 @@ footer {
 }
 
 
+
+/* ===== Встроенная динамика общения (стили из 1.html, изолированы) ===== */
+#relationship-chart { --dyn-pink:#ff72ad; --dyn-purple:#bd78f1; --dyn-muted:#aaa1ad; --dyn-grid:rgba(255,255,255,.10); width:min(900px,100%); margin:0 auto; padding:0 20px 38px; color:#f7f1f7; }
+#relationship-chart .dyn-card { border:1px solid rgba(255,255,255,.10); border-radius:24px; padding:20px; background:rgba(25,20,29,.82); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px); box-shadow:0 18px 55px rgba(0,0,0,.22); margin-bottom:16px; }
+#relationship-chart .dyn-card-head { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:14px; }
+#relationship-chart .dyn-card h2 { font-size:18px; letter-spacing:-.3px; }
+#relationship-chart .dyn-period { font-size:11px; color:var(--dyn-muted); white-space:nowrap; }
+#relationship-chart .dyn-legend { display:flex; flex-wrap:wrap; gap:10px 18px; margin:0 0 12px; }
+#relationship-chart .dyn-legend-item { display:flex; align-items:center; gap:8px; color:#d8d0da; font-size:12px; }
+#relationship-chart .dyn-swatch { width:19px; height:3px; border-radius:5px; }
+#relationship-chart .dyn-chart-wrap { position:relative; width:100%; overflow:hidden; }
+#relationship-chart svg { display:block; width:100%; height:auto; overflow:visible; }
+#relationship-chart .axis-label { fill:#918895; font-size:11px; }
+#relationship-chart .gridline { stroke:var(--dyn-grid); stroke-width:1; stroke-dasharray:3 5; }
+#relationship-chart .line-trust { fill:none; stroke:var(--dyn-pink); stroke-width:3.4; stroke-linecap:round; stroke-linejoin:round; }
+#relationship-chart .line-feelings { fill:none; stroke:var(--dyn-purple); stroke-width:3.4; stroke-linecap:round; stroke-linejoin:round; }
+#relationship-chart .dot-trust { fill:#160f19; stroke:var(--dyn-pink); stroke-width:2.5; }
+#relationship-chart .dot-feelings { fill:#160f19; stroke:var(--dyn-purple); stroke-width:2.5; }
+#relationship-chart .hit { fill:transparent; cursor:pointer; }
+#relationship-chart .dyn-tooltip { display:none; position:absolute; z-index:3; min-width:170px; max-width:230px; padding:11px 13px; border:1px solid rgba(255,255,255,.14); border-radius:14px; background:rgba(20,15,24,.96); box-shadow:0 12px 32px rgba(0,0,0,.4); font-size:12px; line-height:1.55; pointer-events:none; }
+#relationship-chart .dyn-tooltip strong { display:block; font-size:13px; margin-bottom:4px; }
+#relationship-chart .dyn-tooltip .t { color:var(--dyn-pink); }
+#relationship-chart .dyn-tooltip .f { color:var(--dyn-purple); }
+#relationship-chart .dyn-hint { color:#8e8492; font-size:11px; margin-top:8px; }
+#relationship-chart .dyn-metrics { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:15px; }
+#relationship-chart .dyn-metric { padding:13px 14px; border-radius:16px; background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.06); }
+#relationship-chart .dyn-metric small { display:block; color:var(--dyn-muted); font-size:11px; margin-bottom:5px; }
+#relationship-chart .dyn-metric strong { font-size:25px; letter-spacing:-1px; }
+#relationship-chart .dyn-metric.trust strong { color:var(--dyn-pink); }
+#relationship-chart .dyn-metric.feelings strong { color:var(--dyn-purple); }
+#relationship-chart .dyn-events { display:grid; gap:10px; }
+#relationship-chart .dyn-event { display:grid; grid-template-columns:92px 1fr; gap:12px; padding:14px; border:1px solid rgba(255,255,255,.07); border-radius:16px; background:rgba(255,255,255,.035); }
+#relationship-chart .dyn-event-date { color:var(--dyn-pink); font-size:11px; font-weight:800; padding-top:2px; }
+#relationship-chart .dyn-event-title { font-size:13px; font-weight:750; margin-bottom:5px; }
+#relationship-chart .dyn-event-note { color:#b9b0bd; font-size:12px; line-height:1.55; }
+#relationship-chart .dyn-pills { display:flex; flex-wrap:wrap; gap:7px; margin-top:9px; }
+#relationship-chart .dyn-pill { font-size:10px; padding:5px 8px; border-radius:20px; background:rgba(255,255,255,.06); color:#d8cfda; }
+@media(max-width:560px) {
+  #relationship-chart { padding:0 9px 30px; }
+  #relationship-chart .dyn-card { padding:15px; border-radius:20px; }
+  #relationship-chart .dyn-event { grid-template-columns:76px 1fr; padding:12px; gap:9px; }
+  #relationship-chart .dyn-period { font-size:10px; }
+}
+
+
+
+/* ================= CINEMATIC MOTION LAYER ================= */
+:root { --motion-ease: cubic-bezier(.2,.75,.25,1); }
+html { scroll-behavior: smooth; }
+body { isolation:isolate; }
+body::before, body::after {
+  content:""; position:fixed; z-index:-1; width:42vw; height:42vw; min-width:260px; min-height:260px;
+  border-radius:50%; filter:blur(85px); opacity:.18; pointer-events:none;
+  animation:ambientDrift 18s ease-in-out infinite alternate;
+}
+body::before { top:-14vw; left:-12vw; background:radial-gradient(circle,#ed4e9b 0%,transparent 68%); }
+body::after { right:-14vw; bottom:-18vw; background:radial-gradient(circle,#8154db 0%,transparent 68%); animation-delay:-8s; }
+@keyframes ambientDrift { from{transform:translate3d(0,0,0) scale(.9)} to{transform:translate3d(7vw,5vh,0) scale(1.18)} }
+.motion-reveal { opacity:0; transform:translateY(28px) scale(.985); filter:blur(5px); transition:opacity .8s var(--motion-ease),transform .8s var(--motion-ease),filter .8s var(--motion-ease); }
+.motion-reveal.is-visible { opacity:1; transform:translateY(0) scale(1); filter:blur(0); }
+.motion-reveal[data-motion-delay="1"]{transition-delay:.08s}
+.motion-reveal[data-motion-delay="2"]{transition-delay:.16s}
+.motion-reveal[data-motion-delay="3"]{transition-delay:.24s}
+.hero { position:relative; overflow:hidden; }
+.hero::before { content:""; position:absolute; inset:-80% -30%; pointer-events:none; background:linear-gradient(110deg,transparent 42%,rgba(255,255,255,.075) 50%,transparent 58%); transform:translateX(-65%) rotate(8deg); animation:heroSheen 9s ease-in-out 1.2s infinite; }
+@keyframes heroSheen { 0%,55%{transform:translateX(-65%) rotate(8deg)} 85%,100%{transform:translateX(65%) rotate(8deg)} }
+.hero-inner { animation:heroArrive 1s var(--motion-ease) both; }
+@keyframes heroArrive { from{opacity:0;transform:translateY(24px) scale(.98);filter:blur(8px)} to{opacity:1;transform:none;filter:blur(0)} }
+#relationship-chart .dyn-card, #relationship-chart .dyn-event, .login-box { transition:transform .35s var(--motion-ease),border-color .35s ease,box-shadow .35s ease,background .35s ease; }
+#relationship-chart .dyn-card:hover { transform:translateY(-4px); border-color:rgba(255,114,173,.28); box-shadow:0 24px 65px rgba(0,0,0,.32),0 0 35px rgba(255,114,173,.07); }
+#relationship-chart .dyn-event:hover { transform:translateX(5px); border-color:rgba(189,120,241,.28); background:rgba(255,255,255,.06); }
+button, a { -webkit-tap-highlight-color:transparent; }
+button { transition:transform .22s var(--motion-ease),filter .22s ease,box-shadow .22s ease; }
+button:hover { transform:translateY(-2px); filter:brightness(1.09); }
+button:active { transform:scale(.97); }
+a { transition:color .2s ease,opacity .2s ease; }
+#relationship-chart .line-trust, #relationship-chart .line-feelings { stroke-dasharray:1200; stroke-dashoffset:1200; }
+#relationship-chart.is-visible .line-trust { animation:chartDraw 2.1s .2s var(--motion-ease) forwards; }
+#relationship-chart.is-visible .line-feelings { animation:chartDraw 2.4s .45s var(--motion-ease) forwards; }
+@keyframes chartDraw { to { stroke-dashoffset:0; } }
+#relationship-chart .dot-trust, #relationship-chart .dot-feelings { transform-box:fill-box; transform-origin:center; opacity:0; }
+#relationship-chart.is-visible .dot-trust { animation:dotPop .45s calc(.35s + var(--dot-i, 0)*.055s) both; }
+#relationship-chart.is-visible .dot-feelings { animation:dotPop .45s calc(.5s + var(--dot-i, 0)*.055s) both; }
+@keyframes dotPop { from{opacity:0;transform:scale(0)} to{opacity:1;transform:scale(1)} }
+::selection { background:rgba(236,91,157,.35); color:#fff; }
+:focus-visible { outline:2px solid #ff86bd; outline-offset:4px; }
+@media (prefers-reduced-motion: reduce) {
+  *,*::before,*::after { animation-duration:.01ms!important; animation-iteration-count:1!important; scroll-behavior:auto!important; transition-duration:.01ms!important; }
+  .motion-reveal { opacity:1; transform:none; filter:none; }
+}
+
 </style>
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="shortcut icon" href="favicon.ico">
@@ -679,6 +770,36 @@ footer {
 
         </div>
     </section>
+
+
+<section id="relationship-chart" aria-label="Динамика общения">
+  <section class="dyn-card">
+    <div class="dyn-card-head">
+      <h2>График по датам</h2>
+      <span class="dyn-period">Ноябрь 2025 — Ноябрь 2026</span>
+    </div>
+    <div class="dyn-legend">
+      <div class="dyn-legend-item"><span class="dyn-swatch" style="background:#ff72ad"></span>Доверие</div>
+      <div class="dyn-legend-item"><span class="dyn-swatch" style="background:#bd78f1"></span>Романтические сигналы</div>
+    </div>
+    <div class="dyn-chart-wrap" id="dynChartWrap">
+      <svg id="dynChart" viewBox="0 0 760 330" role="img" aria-label="График условной оценки доверия и романтических сигналов от 0 до 100 процентов"></svg>
+      <div class="dyn-tooltip" id="dyn_tooltip"></div>
+    </div>
+    <p class="dyn-hint">Нажми на точку графика, чтобы посмотреть событие и оценки.</p>
+    <div class="dyn-metrics">
+      <div class="dyn-metric trust"><small>Последняя оценка доверия</small><strong>45%</strong></div>
+      <div class="dyn-metric feelings"><small>Последняя оценка симпатии</small><strong>15%</strong></div>
+    </div>
+  </section>
+  <section class="dyn-card">
+    <div class="dyn-card-head">
+      <h2>Что повлияло на график</h2>
+      <span class="dyn-period">по записям сайта</span>
+    </div>
+    <div class="dyn-events" id="dyn_events"></div>
+  </section>
+</section>
 
 
     <section class="timeline-section">
@@ -1604,6 +1725,121 @@ document.getElementById("passwordInput")
 
     });
 
+</script>
+
+
+<script>
+(() => {
+const dynamicsPoints = [
+ {date:"24.11.25",title:"Первая встреча",trust:10,feelings:5,note:"Только познакомились. В записи нет признаков сформировавшегося доверия или романтической симпатии."},
+ {date:"25.12.25",title:"Первый раз ходили за руку",trust:25,feelings:20,note:"Близкий жест и совместное время. Но в записи описана прежде всего искра со стороны Егора, поэтому оценка её симпатии остаётся осторожной."},
+ {date:"05.01.26",title:"Лера заплакала при тебе",trust:40,feelings:20,note:"Она позволила увидеть уязвимую сторону. Это может говорить о доверии, но не обязательно о романтических чувствах."},
+ {date:"26.01.26",title:"Первое признание Егора",trust:30,feelings:15,note:"Разговор закончился напряжённо: в записи сказано, что Егор не дал Лере высказаться и ушёл злым."},
+ {date:"28.02.26",title:"Лера начала встречаться с Артёмом",trust:45,feelings:5,note:"Событие описывает её отношения с другим человеком, а не её чувства к Егору. Романтический сигнал к Егору здесь не подтверждён."},
+ {date:"01.06.26",title:"Второе признание Егора и её ответ",trust:85,feelings:25,note:"Она назвала Егора очень важным человеком, сказала, что доверяет ему и не хочет прекращать общение. При этом не заявила о романтических чувствах."},
+ {date:"17.06.26",title:"Первая пауза",trust:65,feelings:20,note:"Появилась дистанция и стало эмоционально сложнее. В записи нет ясного подтверждения романтической взаимности."},
+ {date:"20.06.26",title:"Озеро в 4 утра",trust:75,feelings:30,note:"Она приехала с Евой, чтобы передать постиранные бинты. Это заметный жест заботы, но его смысл может быть дружеским."},
+ {date:"27.06.26",title:"Первый настоящий поцелуй",trust:82,feelings:78,note:"Самый ясный романтический сигнал в хронологии: на вопрос о шансе она ответила «да» и поцеловала."},
+ {date:"29.06.26",title:"Первая близость",trust:84,feelings:80,note:"В записи событие отмечено как счастливое, но подробностей о её чувствах нет. Оценка опирается на контекст предыдущего поцелуя."},
+ {date:"24.07.26",title:"Расставание с Артёмом",trust:84,feelings:78,note:"Изменился её статус отношений, но само расставание не доказывает усиление чувств к Егору."},
+ {date:"08.08.26",title:"Предложение стать парой",trust:72,feelings:35,note:"В записи указано, что Егор получил отказ. Это заметно снижает оценку романтической взаимности."},
+ {date:"15.08.26",title:"Она убрала общие фотографии",trust:58,feelings:25,note:"Для Егора это выглядело как дистанцирование. Причина поступка в дневнике не установлена."},
+ {date:"01.09.26",title:"Разговор о чувствах",trust:78,feelings:68,note:"По записи, она сказала, что чувства есть и хотела бы в будущем построить что-то серьёзное. Это прямой позитивный сигнал."},
+ {date:"19.09.26",title:"Сложный разговор",trust:38,feelings:25,note:"Она не хотела открываться, относилась холоднее и сказала, что не знает, теряет ли чувства. Поэтому обе оценки снижены."},
+ {date:"Ноябрь 2026",title:"Первые нотки доверия",trust:45,feelings:15,note:"Появились объятия при встрече и прощании, но в записи также есть сомнения, упоминание бывшего и отсутствие ясного разговора о взаимности."}
+];
+const dyn_svg = document.getElementById("dynChart");
+const dyn_NS = "http://www.w3.org/2000/svg";
+const dyn_W=760,dyn_H=330,dyn_L=48,dyn_R=18,dyn_T=18,dyn_B=55;
+const dyn_plotW=dyn_W-dyn_L-dyn_R, dyn_plotH=dyn_H-dyn_T-dyn_B;
+const dyn_x=i=>dyn_L+(dynamicsPoints.length===1?0:i*dyn_plotW/(dynamicsPoints.length-1));
+const dyn_y=v=>dyn_T+(100-v)*dyn_plotH/100;
+function el(tag,attrs={},parent=dyn_svg){
+ const n=document.createElementNS(dyn_NS,tag);
+ for(const [k,v] of Object.entries(attrs)) n.setAttribute(k,v);
+ parent.appendChild(n);return n;
+}
+[0,20,40,60,80,100].forEach(v=>{
+ const yy=dyn_y(v);
+ el("line",{x1:dyn_L,y1:yy,x2:dyn_W-dyn_R,y2:yy,class:"gridline"});
+ const tx=el("text",{x:dyn_L-10,y:yy+4,"text-anchor":"end",class:"axis-label"});
+ tx.textContent=v+"%";
+});
+const labelIndexes=[0,3,6,8,11,14,15];
+labelIndexes.forEach(i=>{
+ const tx=el("text",{x:dyn_x(i),y:dyn_H-22,"text-anchor":"middle",class:"axis-label"});
+ tx.textContent=dynamicsPoints[i].date;
+});
+function makeLine(key,cls){
+ const coords=dynamicsPoints.map((p,i)=>`${dyn_x(i)},${dyn_y(p[key])}`).join(" ");
+ el("polyline",{points:coords,class:cls});
+ dynamicsPoints.forEach((p,i)=>{
+   el("circle",{cx:dyn_x(i),cy:dyn_y(p[key]),r:4.6,class:key==="trust"?"dot-trust":"dot-feelings"});
+ });
+}
+makeLine("trust","line-trust");
+makeLine("feelings","line-feelings");
+
+const dyn_tooltip=document.getElementById("dyn_tooltip");
+const dyn_wrap=document.getElementById("dynChartWrap");
+function showPoint(i,clientX,clientY){
+ const p=dynamicsPoints[i];
+ dyn_tooltip.innerHTML=`<strong>${p.date} · ${p.title}</strong><span class="t">Доверие: ${p.trust}%</span><br><span class="f">Романтические сигналы: ${p.feelings}%</span><br>${p.note}`;
+ dyn_tooltip.style.display="block";
+ const rect=dyn_wrap.getBoundingClientRect();
+ let left=(clientX ?? rect.left+rect.width/2)-rect.left+10;
+ let top=(clientY ?? rect.top+40)-rect.top+10;
+ left=Math.min(Math.max(6,left),rect.width-235);
+ top=Math.min(Math.max(6,top),rect.height-130);
+ dyn_tooltip.style.left=left+"px";dyn_tooltip.style.top=top+"px";
+}
+dynamicsPoints.forEach((p,i)=>{
+ const hit=el("circle",{cx:dyn_x(i),cy:(dyn_y(p.trust)+dyn_y(p.feelings))/2,r:17,class:"hit"});
+ hit.addEventListener("click",e=>showPoint(i,e.clientX,e.clientY));
+ hit.addEventListener("touchstart",e=>{const t=e.touches[0];showPoint(i,t.clientX,t.clientY)},{passive:true});
+});
+document.addEventListener("click",e=>{
+ if(!dyn_wrap.contains(e.target))dyn_tooltip.style.display="none";
+});
+
+const dyn_events=document.getElementById("dyn_events");
+[...dynamicsPoints].reverse().forEach(p=>{
+ const item=document.createElement("article");item.className="dyn-event";
+ item.innerHTML=`<div class="dyn-event-date">${p.date}</div><div><div class="dyn-event-title">${p.title}</div><div class="dyn-event-note">${p.note}</div><div class="dyn-pills"><span class="dyn-pill">Доверие: <b style="color:var(--dyn-pink)">${p.trust}%</b></span><span class="dyn-pill">Симпатия: <b style="color:var(--dyn-purple)">${p.feelings}%</b></span></div></div>`;
+ dyn_events.appendChild(item);
+});
+
+})();
+</script>
+
+
+<script>
+/* Cinematic entrance choreography — no libraries, respects reduced-motion. */
+(() => {
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const chart = document.getElementById('relationship-chart');
+  const revealTargets = [...document.querySelectorAll('.hero, #relationship-chart .dyn-card, .timeline-section, .timeline-section .event, .timeline-section .event-card, .timeline-section .memory-card, footer')];
+  revealTargets.forEach((el, i) => {
+    if (el === chart) return;
+    el.classList.add('motion-reveal');
+    if (i % 4) el.dataset.motionDelay = String(i % 4);
+  });
+  if (reduce || !('IntersectionObserver' in window)) {
+    revealTargets.forEach(el => el.classList.add('is-visible'));
+    if (chart) chart.classList.add('is-visible');
+    return;
+  }
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-visible');
+      obs.unobserve(entry.target);
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -45px 0px' });
+  revealTargets.forEach(el => observer.observe(el));
+  if (chart) observer.observe(chart);
+  document.querySelectorAll('#relationship-chart .dot-trust, #relationship-chart .dot-feelings').forEach((dot, i) => dot.style.setProperty('--dot-i', i % 16));
+})();
 </script>
 
 </body>
